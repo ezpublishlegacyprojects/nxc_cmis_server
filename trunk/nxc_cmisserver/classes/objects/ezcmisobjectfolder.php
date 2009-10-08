@@ -28,7 +28,7 @@
  * @file ezcmisobjectfolder.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/objects/ezcmisobjectbase.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/objects/ezcmisobjectbase.php' );
 
 class eZCMISObjectFolder extends eZCMISObjectBase
 {

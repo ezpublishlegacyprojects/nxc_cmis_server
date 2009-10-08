@@ -28,7 +28,7 @@
  * @file ezcmisgeneralexceptions.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexception.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexception.php' );
 
 /**
  * One or more of the input parameters to the service method is missing or invalid.

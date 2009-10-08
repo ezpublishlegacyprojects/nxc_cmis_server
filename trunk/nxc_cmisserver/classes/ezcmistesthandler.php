@@ -29,7 +29,7 @@
  * @file ezcmistesthandler.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
 
 class eZCMISTestHandler
 {
@@ -252,29 +252,29 @@ class eZCMISTestHandler
      */
     public static function testMap()
     {
-        return array( 'testRepository'          => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestrepository.php',
+        return array( 'testRepository'          => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestrepository.php',
                                                           'class' => 'eZCMISTestRepository' ),
-                      'testCreateDocument'      => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestcreatedocument.php',
+                      'testCreateDocument'      => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestcreatedocument.php',
                                                           'class' => 'eZCMISTestCreateDocument' ),
-                      'testCreateFolder'        => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestcreatefolder.php',
+                      'testCreateFolder'        => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestcreatefolder.php',
                                                           'class' => 'eZCMISTestCreateFolder' ),
-                      'testDeleteContentStream' => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestdeletecontentstream.php',
+                      'testDeleteContentStream' => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestdeletecontentstream.php',
                                                           'class' => 'eZCMISTestDeleteContentStream' ),
-                      'testDeleteObject'        => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestdeleteobject.php',
+                      'testDeleteObject'        => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestdeleteobject.php',
                                                           'class' => 'eZCMISTestDeleteObject' ),
-                      'testDeleteTree'          => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestdeletetree.php',
+                      'testDeleteTree'          => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestdeletetree.php',
                                                           'class' => 'eZCMISTestDeleteTree' ),
-                      'testContentStream'       => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestcontentstream.php',
+                      'testContentStream'       => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestcontentstream.php',
                                                           'class' => 'eZCMISTestContentStream' ),
-                      'testDescendants'         => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestdescendants.php',
+                      'testDescendants'         => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestdescendants.php',
                                                           'class' => 'eZCMISTestDescendants' ),
-                      'testObjectParents'       => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestobjectparents.php',
+                      'testObjectParents'       => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestobjectparents.php',
                                                           'class' => 'eZCMISTestObjectParents' ),
-                      'testFolderParent'        => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistestfolderparent.php',
+                      'testFolderParent'        => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistestfolderparent.php',
                                                           'class' => 'eZCMISTestFolderParent' ),
-                      'testTypes'               => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistesttypes.php',
+                      'testTypes'               => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistesttypes.php',
                                                           'class' => 'eZCMISTestTypes' ),
-                      'testType'               => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/tests/ezcmistesttype.php',
+                      'testType'               => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/tests/ezcmistesttype.php',
                                                           'class' => 'eZCMISTestType' ),
 
 

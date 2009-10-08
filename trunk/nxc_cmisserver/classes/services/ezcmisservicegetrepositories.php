@@ -27,9 +27,9 @@
  * @file ezcmisservicegetrepository.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisatomtools.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetrepositoryinfo.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisatomtools.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetrepositoryinfo.php' );
 
 class eZCMISServiceGetRepositories extends eZCMISServiceGetRepositoryInfo
 {

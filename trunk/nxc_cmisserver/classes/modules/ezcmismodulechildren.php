@@ -37,9 +37,9 @@
  * @file ezcmismodulechildren.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulebase.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisatomtools.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmistypehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulebase.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisatomtools.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmistypehandler.php' );
 
 class eZCMISModuleChildren extends eZCMISModuleBase
 {

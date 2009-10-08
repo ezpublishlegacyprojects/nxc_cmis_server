@@ -28,8 +28,8 @@
  * @file ezcmis.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
-include_once( eZExtension::baseDirectory() .'/ezcmis/classes/ezcmisservicehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisservicehandler.php' );
 
 class eZCMISServiceURL
 {

@@ -1,7 +1,7 @@
 <?php /* #?ini charset="iso-8859-1"?
 
 [ModuleSettings]
-ExtensionRepositories[]=ezcmis
+ExtensionRepositories[]=nxc_cmisserver
 ModuleList[]=cmis
 
 */ ?>

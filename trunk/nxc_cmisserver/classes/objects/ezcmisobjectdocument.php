@@ -28,9 +28,9 @@
  * @file ezcmisobjectdocumennt.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/objects/ezcmisobjectbase.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmistypehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/objects/ezcmisobjectbase.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmistypehandler.php' );
 
 class eZCMISObjectDocument extends eZCMISObjectBase
 {

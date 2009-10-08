@@ -32,7 +32,7 @@
  * @file ezcmismoduledescendants.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulebase.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulebase.php' );
 
 class eZCMISModuleDescendants extends eZCMISModuleBase
 {

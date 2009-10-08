@@ -27,7 +27,7 @@
  * @file ezcmisservicehandler.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
 
 class eZCMISTypeHandler
 {

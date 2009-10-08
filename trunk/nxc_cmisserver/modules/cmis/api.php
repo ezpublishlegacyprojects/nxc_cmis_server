@@ -24,7 +24,7 @@
  * View for CMIS services
  */
 
-include_once( eZExtension::baseDirectory() .'/ezcmis/classes/ezcmis.php' );
+include_once( eZExtension::baseDirectory() .'/nxc_cmisserver/classes/ezcmis.php' );
 
 $Module = $Params['Module'];
 $userParameters = $Params['UserParameters'];

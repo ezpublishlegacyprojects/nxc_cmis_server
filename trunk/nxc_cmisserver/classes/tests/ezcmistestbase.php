@@ -28,7 +28,7 @@
  * @file ezcmismoduletest.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisatomtools.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisatomtools.php' );
 
 abstract class eZCMISTestBase
 {

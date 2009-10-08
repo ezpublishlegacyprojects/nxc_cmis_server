@@ -26,8 +26,8 @@
  * @file ezcmisexceptions.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisgeneralexceptions.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisspecificexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisgeneralexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisspecificexceptions.php' );
 
 class eZCMISExceptions
 {

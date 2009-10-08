@@ -30,7 +30,7 @@
  * @file ezcmismodulebase.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisservicehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisservicehandler.php' );
 
 abstract class eZCMISModuleBase
 {

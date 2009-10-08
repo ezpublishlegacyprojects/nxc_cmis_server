@@ -28,8 +28,8 @@
  * @file ezcmisobjecthandler.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmis.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmistypehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmis.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmistypehandler.php' );
 
 class eZCMISObjectHandler
 {
@@ -44,7 +44,7 @@ class eZCMISObjectHandler
             return false;
         }
 
-        $includeFile = eZExtension::baseDirectory() . '/ezcmis/classes/objects/ezcmisobject' . $baseType . '.php';
+        $includeFile = eZExtension::baseDirectory() . '/nxc_cmisserver/classes/objects/ezcmisobject' . $baseType . '.php';
         if ( !file_exists( $includeFile ) )
         {
             throw new eZCMISRuntimeException( ezi18n( 'cmis', "File does not exist: '%file%'", null, array( '%file%' => $includeFile ) ) );

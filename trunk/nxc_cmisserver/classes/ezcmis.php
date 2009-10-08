@@ -28,9 +28,9 @@
  * @file ezcmis.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmismodulehandler.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisserviceurl.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmismodulehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisserviceurl.php' );
 
 class eZCMIS
 {

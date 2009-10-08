@@ -28,8 +28,8 @@
  * @file ezcmisobjectbase.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisatomtools.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmistypehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisatomtools.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmistypehandler.php' );
 
 abstract class eZCMISObjectBase
 {

@@ -27,12 +27,12 @@
  * @file ezcmisservicesetcontentstream.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicebase.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetrepositoryinfo.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisobjecthandler.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisatomtools.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetproperties.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicebase.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetrepositoryinfo.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisobjecthandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisatomtools.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetproperties.php' );
 
 class eZCMISServiceSetContentStream extends eZCMISServiceBase
 {

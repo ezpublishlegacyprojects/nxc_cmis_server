@@ -28,7 +28,7 @@
  * @file ezcmisservicehandler.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
 
 class eZCMISServiceHandler
 {
@@ -109,43 +109,43 @@ class eZCMISServiceHandler
      */
     protected static function serviceMap()
     {
-        return array( 'getRepositoryInfo'   => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetrepositoryinfo.php',
+        return array( 'getRepositoryInfo'   => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetrepositoryinfo.php',
                                                       'class' => 'eZCMISServiceGetRepositoryInfo' ),
-                      'getRepositories'     => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetrepositories.php',
+                      'getRepositories'     => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetrepositories.php',
                                                       'class' => 'eZCMISServiceGetRepositories' ),
-                      'getProperties'       => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetproperties.php',
+                      'getProperties'       => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetproperties.php',
                                                       'class' => 'eZCMISServiceGetProperties' ),
-                      'getChildren'         => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetchildren.php',
+                      'getChildren'         => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetchildren.php',
                                                       'class' => 'eZCMISServiceGetChildren' ),
-                      'getDescendants'      => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetdescendants.php',
+                      'getDescendants'      => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetdescendants.php',
                                                       'class' => 'eZCMISServiceGetDescendants' ),
-                      'getContentStream'    => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetcontentstream.php',
+                      'getContentStream'    => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetcontentstream.php',
                                                       'class' => 'eZCMISServiceGetContentStream' ),
-                      'setContentStream'    => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicesetcontentstream.php',
+                      'setContentStream'    => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicesetcontentstream.php',
                                                       'class' => 'eZCMISServiceSetContentStream' ),
-                      'deleteContentStream' => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicedeletecontentstream.php',
+                      'deleteContentStream' => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicedeletecontentstream.php',
                                                       'class' => 'eZCMISServiceDeleteContentStream' ),
-                      'deleteObject'        => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicedeleteobject.php',
+                      'deleteObject'        => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicedeleteobject.php',
                                                       'class' => 'eZCMISServiceDeleteObject' ),
-                      'deleteTree'          => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicedeletetree.php',
+                      'deleteTree'          => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicedeletetree.php',
                                                       'class' => 'eZCMISServiceDeleteTree' ),
-                      'createFolder'        => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicecreatefolder.php',
+                      'createFolder'        => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicecreatefolder.php',
                                                       'class' => 'eZCMISServiceCreateFolder' ),
-                      'createDocument'      => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicecreatedocument.php',
+                      'createDocument'      => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicecreatedocument.php',
                                                       'class' => 'eZCMISServiceCreateDocument' ),
-                      'getFolderParent'     => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetfolderparent.php',
+                      'getFolderParent'     => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetfolderparent.php',
                                                       'class' => 'eZCMISServiceGetFolderParent' ),
-                      'getObjectParents'    => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegetobjectparents.php',
+                      'getObjectParents'    => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegetobjectparents.php',
                                                       'class' => 'eZCMISServiceGetObjectParents' ),
 
-                      'updateProperties'    => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisserviceupdateproperties.php',
+                      'updateProperties'    => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisserviceupdateproperties.php',
                                                       'class' => 'eZCMISServiceUpdateProperties' ),
-                      'getTypeDescendants'  => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegettypedescendants.php',
+                      'getTypeDescendants'  => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegettypedescendants.php',
                                                       'class' => 'eZCMISServiceGetTypeDescendants' ),
-                      'getTypeDefinition'   => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicegettypedefinition.php',
+                      'getTypeDefinition'   => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicegettypedefinition.php',
                                                       'class' => 'eZCMISServiceGetTypeDefinition' ),
 
-                      'login'               => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/services/ezcmisservicelogin.php',
+                      'login'               => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/services/ezcmisservicelogin.php',
                                                       'class' => 'eZCMISServiceLogin' ),
 
                       );

@@ -28,7 +28,7 @@
  * @file ezcmisspecificexceptions.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexception.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexception.php' );
 
 /**
  * The operation violates a Repository- or Object-level constraint defined in the CMIS domain model.

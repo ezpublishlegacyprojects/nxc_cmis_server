@@ -29,8 +29,8 @@
  * @file ezcmismodulehandler.php
  */
 
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/exceptions/ezcmisexceptions.php' );
-include_once( eZExtension::baseDirectory() . '/ezcmis/classes/ezcmisservicehandler.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/exceptions/ezcmisexceptions.php' );
+include_once( eZExtension::baseDirectory() . '/nxc_cmisserver/classes/ezcmisservicehandler.php' );
 
 class eZCMISModuleHandler
 {
@@ -85,30 +85,30 @@ class eZCMISModuleHandler
      */
     public static function moduleMap()
     {
-        return array( 'repository'   => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulerepository.php',
+        return array( 'repository'   => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulerepository.php',
                                                'class' => 'eZCMISModuleRepository' ),
                       // Perhaps it should not be there. Move it to 'repository'?
-                      'repositories' => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulerepositories.php',
+                      'repositories' => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulerepositories.php',
                                                'class' => 'eZCMISModuleRepositories' ),
-                      'node'         => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulenode.php',
+                      'node'         => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulenode.php',
                                                'class' => 'eZCMISModuleNode' ),
-                      'children'     => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulechildren.php',
+                      'children'     => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulechildren.php',
                                                'class' => 'eZCMISModuleChildren' ),
-                      'descendants'  => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismoduledescendants.php',
+                      'descendants'  => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismoduledescendants.php',
                                                'class' => 'eZCMISModuleDescendants' ),
-                      'content'      => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulecontent.php',
+                      'content'      => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulecontent.php',
                                                'class' => 'eZCMISModuleContent' ),
-                      'type'         => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismoduletype.php',
+                      'type'         => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismoduletype.php',
                                                'class' => 'eZCMISModuleType' ),
-                      'types'        => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismoduletypes.php',
+                      'types'        => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismoduletypes.php',
                                                'class' => 'eZCMISModuleTypes' ),
-                      'login'        => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismodulelogin.php',
+                      'login'        => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismodulelogin.php',
                                                'class' => 'eZCMISModuleLogin' ),
-                      'parent'       => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismoduleparent.php',
+                      'parent'       => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismoduleparent.php',
                                                'class' => 'eZCMISModuleParent' ),
-                      'parents'      => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismoduleparents.php',
+                      'parents'      => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismoduleparents.php',
                                                'class' => 'eZCMISModuleParents' ),
-                      'test'         => array( 'script' => eZExtension::baseDirectory() . '/ezcmis/classes/modules/ezcmismoduletest.php',
+                      'test'         => array( 'script' => eZExtension::baseDirectory() . '/nxc_cmisserver/classes/modules/ezcmismoduletest.php',
                                                'class' => 'eZCMISModuleTest' ),
 
                       );
