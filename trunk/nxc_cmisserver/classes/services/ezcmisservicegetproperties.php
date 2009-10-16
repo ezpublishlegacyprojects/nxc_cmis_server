@@ -199,10 +199,10 @@ class eZCMISServiceGetProperties extends eZCMISServiceBase
         $published = $doc->createElement( 'published', $creationDate );
         $root->appendChild( $published );
 
-        $summary = $doc->createElement( 'summary', $cmisObject->getSummary() );
+        $summary = $doc->createElement( 'summary', htmlspecialchars( $cmisObject->getSummary() ) );
         $root->appendChild( $summary );
 
-        $title = $doc->createElement( 'title', $name );
+        $title = $doc->createElement( 'title', htmlspecialchars( $name ) );
         $root->appendChild( $title );
 
         $updated = $doc->createElement( 'updated', $modificationDate );

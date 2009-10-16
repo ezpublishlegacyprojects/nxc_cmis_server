@@ -117,7 +117,7 @@ class eZCMISAtomTools
         }
         catch ( Exception $e )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Bad XML: '%xml%'", null, array( '%xml%' => $xml ) ) );
+            throw new eZCMISRuntimeException( $e->getMessage() . ":\n " . $xml );
         }
 
         foreach ( self::getNamespaceList() as $key => $ns )
@@ -143,7 +143,7 @@ class eZCMISAtomTools
 
         $value = $entry->xpath( $xpath );
 
-        return isset( $value[0][0] ) ? $value[0][0] : null;
+        return isset( $value[0] ) ? $value[0] : null;
     }
 
     /**
