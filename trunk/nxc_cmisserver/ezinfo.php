@@ -23,8 +23,8 @@ class ezcmisInfo
     function info()
     {
         return array( 'Name' => "NXC CMIS Server extension",
-                      'Version' => "0.1",
-                      'Copyright' => "Copyright (C) 1999-2009 NXC AS",
+                      'Version' => "0.2",
+                      'Copyright' => "Copyright (C) 1999-2009 NX Consulting AS",
                       'License' => "GNU General Public License v2.0"
                      );
     }
