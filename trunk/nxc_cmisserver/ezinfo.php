@@ -1,6 +1,6 @@
 <?php
 /** 
- * COPYRIGHT NOTICE: Copyright (C) 2001-2009 Nexus AS
+ * COPYRIGHT NOTICE: Copyright (C) 2001-2009 NXC AS
  * SOFTWARE LICENSE: GNU General Public License v2.0
  * NOTICE: >
  *   This program is free software; you can redistribute it and/or
@@ -20,11 +20,11 @@
 
 class ezcmisInfo
 {
-    function info()
+    static function info()
     {
         return array( 'Name' => "NXC CMIS Server extension",
                       'Version' => "0.2",
-                      'Copyright' => "Copyright (C) 1999-2009 NX Consulting AS",
+                      'Copyright' => "Copyright (C) 1999-2009 NXC AS",
                       'License' => "GNU General Public License v2.0"
                      );
     }

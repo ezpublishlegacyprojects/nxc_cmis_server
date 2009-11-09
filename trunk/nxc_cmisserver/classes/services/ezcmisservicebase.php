@@ -4,7 +4,7 @@
  *
  * Created on: <25-Apr-2009 20:59:01 vd>
  *
- * COPYRIGHT NOTICE: Copyright (C) 2001-2009 Nexus AS
+ * COPYRIGHT NOTICE: Copyright (C) 2001-2009 NXC AS
  * SOFTWARE LICENSE: GNU General Public License v2.0
  * NOTICE: >
  *   This program is free software; you can redistribute it and/or

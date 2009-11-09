@@ -2,7 +2,7 @@
 /**
  * Created on: <1-Jun-2009 10:00:00 vd>
  *
- * COPYRIGHT NOTICE: Copyright (C) 2001-2009 Nexus AS
+ * COPYRIGHT NOTICE: Copyright (C) 2001-2009 NXC AS
  * SOFTWARE LICENSE: GNU General Public License v2.0
  * NOTICE: >
  *   This program is free software; you can redistribute it and/or
