@@ -244,7 +244,7 @@ class eZCMISObjectDocument extends eZCMISObjectBase
     /**
      * @return string File name of the content stream
      */
-    public function getContentStreamFilename()
+    public function getContentStreamFileName()
     {
         return $this->Node ? $this->Node->getName() : '';
     }

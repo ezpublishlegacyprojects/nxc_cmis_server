@@ -65,6 +65,10 @@ class eZCMISServiceGetTypeDescendants extends eZCMISServiceBase
          * If False (default), the Repository SHALL return only the attributes for each Object-Type.
          */
         $this->addField( 'includePropertyDefinitions', 'false', false );
+
+        /**
+         * @TODO: Implement paging
+         */
     }
 
     /**
@@ -107,11 +111,19 @@ class eZCMISServiceGetTypeDescendants extends eZCMISServiceBase
         $id = $doc->createElement( 'id', $typeId ? 'type-' . $typeId : 'types-all' );
         $root->appendChild( $id );
 
+        eZCMISServiceGetProperties::createLink( $doc, $root, 'service', eZCMISServiceURL::createURL( 'repository', array( 'repositoryId' => $repositoryId ) ) );
         eZCMISServiceGetProperties::createLink( $doc, $root, 'self', eZCMISServiceURL::getRequestedURI() );
-        $title = $doc->createElement( 'title', $typeId ? 'Type ' . $typeId : 'All Types' );
+        // @TODO: Implement paging
+        eZCMISServiceGetProperties::createLink( $doc, $root, 'first', eZCMISServiceURL::getRequestedURI() );
+        eZCMISServiceGetProperties::createLink( $doc, $root, 'last', eZCMISServiceURL::getRequestedURI() );
+
+        $title = $doc->createElement( 'title', $typeId ? 'Type ' . $typeId : 'Base Types' );
         $root->appendChild( $title );
 
         $types = eZCMISTypeHandler::getTypeDefinition( $typeId, $depth, $includePropertyDefinitions );
+
+        $numItems = $doc->createElement( 'cmisra:numItems', count( $types ) );
+        $root->appendChild( $numItems );
 
         foreach ( $types as $type )
         {
@@ -128,7 +140,7 @@ class eZCMISServiceGetTypeDescendants extends eZCMISServiceBase
      */
     public static function createElement( DOMDocument $doc, DOMElement $entry, $type, $repositoryId )
     {
-        if ( !isset( $type['typeId'] ) )
+        if ( !isset( $type['id'] ) )
         {
             return false;
         }
@@ -138,7 +150,7 @@ class eZCMISServiceGetTypeDescendants extends eZCMISServiceBase
         $name = $doc->createElement( 'name', 'admin' );
         $author->appendChild( $name );
 
-        $typeId = $type['typeId'];
+        $typeId = $type['id'];
         $content = $doc->createElement( 'content', $typeId );
         $entry->appendChild( $content );
 
@@ -146,16 +158,16 @@ class eZCMISServiceGetTypeDescendants extends eZCMISServiceBase
         $entry->appendChild( $id );
 
         eZCMISServiceGetProperties::createLink( $doc, $entry, 'self', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => $repositoryId, 'typeId' => $typeId ) ) );
-        eZCMISServiceGetProperties::createLink( $doc, $entry, 'type', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => $repositoryId, 'typeId' => $typeId ) ) );
+        eZCMISServiceGetProperties::createLink( $doc, $entry, 'describedby', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => $repositoryId, 'typeId' => $typeId ) ) );
 
         if ( isset( $type['parentId'] ) )
         {
-            eZCMISServiceGetProperties::createLink( $doc, $entry, 'parents', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => $repositoryId, 'typeId' => $type['parentId'] ) ) );
+            eZCMISServiceGetProperties::createLink( $doc, $entry, 'up', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => $repositoryId, 'typeId' => $type['parentId'] ) ) );
         }
 
-        eZCMISServiceGetProperties::createLink( $doc, $entry, 'children', eZCMISServiceURL::createURL( 'types', array( 'repositoryId' => $repositoryId, 'typeId' => $typeId ) ) );
-        eZCMISServiceGetProperties::createLink( $doc, $entry, 'descendants', eZCMISServiceURL::createURL( 'types', array( 'repositoryId' => $repositoryId, 'typeId' => $typeId ) ) );
-        eZCMISServiceGetProperties::createLink( $doc, $entry, 'repository', eZCMISServiceURL::createURL( 'repository', array( 'repositoryId' => $repositoryId ) ) );
+        eZCMISServiceGetProperties::createLink( $doc, $entry, 'down', eZCMISServiceURL::createURL( 'types', array( 'repositoryId' => $repositoryId, 'typeId' => $typeId ) ), 'application/atom+xml;type=feed' );
+        eZCMISServiceGetProperties::createLink( $doc, $entry, 'down', eZCMISServiceURL::createURL( 'types', array( 'repositoryId' => $repositoryId, 'typeId' => $typeId ) ), 'application/cmistree+xml' );
+        eZCMISServiceGetProperties::createLink( $doc, $entry, 'service', eZCMISServiceURL::createURL( 'repository', array( 'repositoryId' => $repositoryId ) ) );
 
         $summary = $doc->createElement( 'summary', $type['description'] );
         $entry->appendChild( $summary );
@@ -163,23 +175,23 @@ class eZCMISServiceGetTypeDescendants extends eZCMISServiceBase
         $title = $doc->createElement( 'title', $type['displayName'] );
         $entry->appendChild( $title );
 
-        $info = false;
-        if ( eZCMISTypeHandler::isFolder( $type['baseType'] ) )
+        $info = eZCMISAtomTools::createElementByArray( $doc, 'type', $type, 'cmisra:' );
+        $info->setAttribute( 'cmisra:id', $typeId );
+        $info->setAttribute( 'xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance' );
+
+        if ( eZCMISTypeHandler::isFolder( $type['baseId'] ) )
         {
-            $info = eZCMISAtomTools::createElementByArray( $doc, 'folderType', $type );
+            $info->setAttribute( 'xsi:type', 'cmis:cmisTypeFolderDefinitionType' );
         }
-        elseif ( eZCMISTypeHandler::isDocument( $type['baseType'] ) )
+        elseif ( eZCMISTypeHandler::isDocument( $type['baseId'] ) )
         {
-            $info = eZCMISAtomTools::createElementByArray( $doc, 'documentType', $type );
+            $info->setAttribute( 'xsi:type', 'cmis:cmisTypeDocumentDefinitionType' );
         }
 
         if ( $info )
         {
             $entry->appendChild( $info );
         }
-
-        $terminator = $doc->createElement( 'cmis:terminator' );
-        $entry->appendChild( $terminator );
 
         return true;
     }

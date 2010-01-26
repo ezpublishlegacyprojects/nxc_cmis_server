@@ -150,11 +150,11 @@ class eZCMISServiceGetChildren extends eZCMISServiceBase
                                                         'Depth' => 1,
                                                         'DepthOperator' => 'eq',
                                                         'Offset' => $offset + $limit,
-                                                        'Limit' => $limit ) )
+                                                        'Limit' => false ) )
                                : false;
 
         $moreChildrenCount = $moreChildren ? count( $moreChildren ) : 0;
-        $childrenCount = count( $children );
+        $childrenCount = $moreChildrenCount ? count( $children ) + $moreChildrenCount : count( $children );
 
         $doc = eZCMISAtomTools::createDocument();
 
@@ -180,9 +180,6 @@ class eZCMISServiceGetChildren extends eZCMISServiceBase
             $root->appendChild( $entry );
             eZCMISServiceGetProperties::createPropertyList( $doc, $entry, $repositoryId, $cmisChild );
         }
-
-        $hasMore = $doc->createElement( 'cmis:hasMoreItems', ( $moreChildrenCount ? 'true' : 'false' ) );
-        $root->appendChild( $hasMore );
 
         return $doc->saveXML();
     }
@@ -238,9 +235,9 @@ class eZCMISServiceGetChildren extends eZCMISServiceBase
 
             // Create 'first' link
             eZCMISServiceGetProperties::createLink( $doc, $root, 'first', eZCMISServiceURL::createURL( $module, array( 'repositoryId' => $repositoryId,
-                                                                                                                        'folderId' => $cmisObject->getObjectId(),
-                                                                                                                        'skipCount' => 0,
-                                                                                                                        'maxItems' => $limit ) ),
+                                                                                                                       'folderId' => $cmisObject->getObjectId(),
+                                                                                                                       'skipCount' => 0,
+                                                                                                                       'maxItems' => $limit ) ),
                                                     $type );
 
             // Create 'next' link
@@ -272,6 +269,9 @@ class eZCMISServiceGetChildren extends eZCMISServiceBase
         $modificationDate = $cmisObject->getLastModificationDate();
         $updated = $doc->createElement( 'updated', $modificationDate );
         $root->appendChild( $updated );
+
+        $numItems = $doc->createElement( 'cmisra:numItems', $childrenCount ? $childrenCount : 0 );
+        $root->appendChild( $numItems );
     }
 }
 ?>

@@ -41,6 +41,20 @@ abstract class eZCMISObjectBase
     protected $Node = null;
 
     /**
+     * Object type id like 'cmis:file' or 'cmis:image'
+     *
+     * @var string
+     */
+    protected $ObjectTypeId = null;
+
+    /**
+     * Base type like 'cmis:folder' or 'cmis:document'
+     *
+     * @var string
+     */
+    protected $BaseType = null;
+
+    /**
      * Constructor
      *
      * @param eZContentObjectTreeNode
@@ -48,6 +62,8 @@ abstract class eZCMISObjectBase
     public function __construct( $node )
     {
         $this->Node = $node;
+        $this->ObjectTypeId = eZCMISTypeHandler::getTypeIdByLocalName( $this->getClassIdentifier() );
+        $this->BaseType = eZCMISTypeHandler::getBaseTypeByTypeId( $this->ObjectTypeId );
     }
 
     /**
@@ -89,13 +105,21 @@ abstract class eZCMISObjectBase
      */
     public function getBaseType()
     {
-        return eZCMISTypeHandler::getBaseTypeByTypeId( $this->getObjectTypeId() );
+        return $this->BaseType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObjectTypeId()
+    {
+        return $this->ObjectTypeId;
     }
 
     /**
      * @return string Object type id
      */
-    public function getObjectTypeId()
+    public function getClassIdentifier()
     {
         return $this->Node ? $this->Node->classIdentifier() : '';
     }

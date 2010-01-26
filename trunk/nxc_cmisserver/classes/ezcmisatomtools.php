@@ -37,10 +37,10 @@ class eZCMISAtomTools
      */
     public static function getNamespaceList()
     {
-        return array( 'atom' => 'http://www.w3.org/2005/Atom',
-                      'app'  => 'http://www.w3.org/2007/app',
-                      'cmis' => 'http://docs.oasis-open.org/ns/cmis/core/200901',
-                      'ez'   => 'http://ez.no' );
+        return array( 'atom'   => 'http://www.w3.org/2005/Atom',
+                      'app'    => 'http://www.w3.org/2007/app',
+                      'cmis'   => 'http://docs.oasis-open.org/ns/cmis/core/200908/',
+                      'cmisra' => 'http://docs.oasis-open.org/ns/cmis/restatom/200908/' );
     }
 
     /**
@@ -64,7 +64,7 @@ class eZCMISAtomTools
         // @TODO: Review it, quite strange behaviour
         $addNs = $mainNs == 'atom' ? 'app' : 'atom';
 
-        foreach( array( $addNs, 'cmis', 'ez' ) as $prefix )
+        foreach( array( $addNs, 'cmis', 'cmisra' ) as $prefix )
         {
             $root->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $namespaces[$prefix] );
         }
@@ -85,7 +85,7 @@ class eZCMISAtomTools
         $element = $doc->createElement( $prefix . $elementName );
         foreach ( $array as $key => $value )
         {
-            $subElement = !is_array( $value ) ? $doc->createElement( $prefix . $key, htmlentities( $value ) ) : self::createElementByArray( $doc, $key, $value );
+            $subElement = !is_array( $value ) ? $doc->createElement( 'cmis:' . $key, htmlentities( $value ) ) : self::createElementByArray( $doc, $key, $value, 'cmis:' );
             $element->appendChild( $subElement );
         }
 
@@ -99,7 +99,6 @@ class eZCMISAtomTools
      */
     public static function getDate( $timestamp )
     {
-        // @TODO: Review datetime creating
         return date( 'Y-m-d\TH:i:sP', $timestamp );
     }
 
@@ -175,7 +174,7 @@ class eZCMISAtomTools
      */
     public static function getPropertyValue( SimpleXMLElement $element, $name, $type = '*' )
     {
-        return (string) self::getXMLValue( $element, 'cmis:object/cmis:properties/cmis:' . $type . '[@cmis:name="' . $name . '"]/cmis:value' );
+        return (string) self::getXMLValue( $element, 'cmisra:object/cmis:properties/cmis:' . $type . '[@propertyDefinitionId="' . $name . '"]/cmis:value' );
     }
 
     /**
@@ -186,7 +185,19 @@ class eZCMISAtomTools
      */
     public static function getPropertyObjectTypeId( SimpleXMLElement $element )
     {
-        return self::getPropertyValue( $element, 'ObjectTypeId' );
+        return self::getPropertyValue( $element, 'cmis:objectTypeId' );
+    }
+
+    /**
+     * Removes namespaces
+     *
+     * @return string
+     */
+    public static function removeNamespaces( $value )
+    {
+        $list = explode( ':', $value );
+
+        return isset( $list[1] ) ? $list[1] : $list[0];
     }
 }
 ?>

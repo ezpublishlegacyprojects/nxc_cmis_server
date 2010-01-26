@@ -65,19 +65,19 @@ class eZCMISModuleChildren extends eZCMISModuleBase
 
         $baseType = eZCMISTypeHandler::getBaseTypeByTypeId( $typeId );
 
-        // If the atom entry has a cmis property cmis:ObjectId that is valid for the repository, the object will be added to the folder.
-        $objectId = eZCMISAtomTools::getPropertyValue( $info[0], 'ObjectId' );
+        // If the atom entry has a cmis property cmis:objectId that is valid for the repository, the object will be added to the folder.
+        $objectId = eZCMISAtomTools::getPropertyValue( $info[0], 'cmis:objectId' );
         if ( $objectId )
         {
             // @TODO: Handle moveObject and addObjectToFolder services
         }
-        else // If the cmis:ObjectId property is missing, object will be created and then added to the folder.
+        else // If the cmis:objectId property is missing, object will be created and then added to the folder.
         {
             $typeId = eZCMISAtomTools::getPropertyObjectTypeId( $info[0] );
 
             if ( !$typeId )
             {
-                eZCMISExceptions::isNotProvided( 'ObjectTypeId' );
+                eZCMISExceptions::isNotProvided( 'objectTypeId' );
             }
 
             $baseType = eZCMISTypeHandler::getBaseTypeByTypeId( $typeId );

@@ -1,40 +1,44 @@
 <?php /*
 
 [Folder]
-typeId=folder
-queryName=folder
-baseType=folder
-baseTypeQueryName=folder
+id=cmis:folder
+localName=folder
 description=Folder type
+baseId=cmis:folder
 creatable=true
 fileable=false
 queryable=true
-controllable=false
+fulltextIndexed=true
 includedInSupertypeQuery=true
+controllablePolicy=false
+controllableACL=false
 
 [Frontpage]
-typeId=frontpage
-queryName=frontpage
-baseType=folder
-baseTypeQueryName=folder
+id=cmis:frontpage
+localName=frontpage
+#queryName=frontpage
 description=Frontpage type
+baseId=cmis:folder
 creatable=true
 fileable=false
 queryable=true
-controllable=false
+fulltextIndexed=true
 includedInSupertypeQuery=true
+controllablePolicy=false
+controllableACL=false
 
 [Image]
-typeId=image
-queryName=image
-baseType=document
-baseTypeQueryName=document
+id=cmis:image
+localName=image
 description=Image type
+baseId=cmis:document
 creatable=true
 fileable=true
 queryable=true
-controllable=false
+fulltextIndexed=true
 includedInSupertypeQuery=true
+controllablePolicy=false
+controllableACL=false
 versionable=false
 # A value that indicates whether a content-stream MAY, SHALL, or SHALL NOT be included in
 # objects of this type. Values:
@@ -46,21 +50,22 @@ contentStreamAllowed=allowed
 contentAttributeId=image
 
 [File]
-typeId=file
-queryName=file
-baseType=document
-baseTypeQueryName=document
+id=cmis:file
+localName=file
 description=File type
+baseId=cmis:document
 creatable=true
 fileable=true
 queryable=true
-controllable=false
+fulltextIndexed=true
 includedInSupertypeQuery=true
+controllablePolicy=false
+controllableACL=false
 versionable=false
 contentStreamAllowed=allowed
 contentAttributeId=file
 # Alias for typeId.
-# 'document' means the same with 'file' in this case
-aliasList[]=document
+# 'cmis:document' means the same with 'file' in this case
+aliasList[]=cmis:document
 
 */ ?>

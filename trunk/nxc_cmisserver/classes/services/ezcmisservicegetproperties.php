@@ -170,27 +170,26 @@ class eZCMISServiceGetProperties extends eZCMISServiceBase
 
         self::createLink( $doc, $root, 'self', eZCMISServiceURL::createURL( 'node', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
         self::createLink( $doc, $root, 'edit', eZCMISServiceURL::createURL( 'node', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
-        self::createLink( $doc, $root, 'allowableactions', eZCMISServiceURL::createURL( 'permissions', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
-        self::createLink( $doc, $root, 'relationships', eZCMISServiceURL::createURL( 'relations', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
+        self::createLink( $doc, $root, 'http://docs.oasis-open.org/ns/cmis/link/200908/allowableactions', eZCMISServiceURL::createURL( 'permissions', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
+        self::createLink( $doc, $root, 'http://docs.oasis-open.org/ns/cmis/link/200908/relationships', eZCMISServiceURL::createURL( 'relations', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
 
         if ( $cmisObject->isFolder() )
         {
-            self::createLink( $doc, $root, 'parents', eZCMISServiceURL::createURL( 'parent', array( 'repositoryId' => $repositoryId, 'folderId' => $objectId ) ) );
-            self::createLink( $doc, $root, 'children', eZCMISServiceURL::createURL( 'children', array( 'repositoryId' => $repositoryId, 'folderId' => $objectId ) ) );
-            self::createLink( $doc, $root, 'descendants', eZCMISServiceURL::createURL( 'descendants', array( 'repositoryId' => $repositoryId, 'folderId' => $objectId ) ) );
+            self::createLink( $doc, $root, 'up', eZCMISServiceURL::createURL( 'parent', array( 'repositoryId' => $repositoryId, 'folderId' => $objectId ) ) );
+            self::createLink( $doc, $root, 'down', eZCMISServiceURL::createURL( 'children', array( 'repositoryId' => $repositoryId, 'folderId' => $objectId ) ), 'application/atom+xml;type=feed' );
+            self::createLink( $doc, $root, 'down', eZCMISServiceURL::createURL( 'descendants', array( 'repositoryId' => $repositoryId, 'folderId' => $objectId ) ), 'application/cmistree+xml' );
+            self::createLink( $doc, $root, 'http://docs.oasis-open.org/ns/cmis/link/200908/foldertree', eZCMISServiceURL::createURL( 'foldertree', array( 'repositoryId' => $repositoryId, 'folderId' => $objectId ) ), 'application/cmistree+xml' );
         }
         elseif ( $cmisObject->isDocument() )
         {
             self::createLink( $doc, $root, 'enclosure', eZCMISServiceURL::createURL( 'content', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ), $cmisObject->getContentStreamMimeType() );
             self::createLink( $doc, $root, 'edit-media', eZCMISServiceURL::createURL( 'content', array( 'repositoryId' => $repositoryId, 'documentId' => $objectId ) ), $cmisObject->getContentStreamMimeType() );
-            self::createLink( $doc, $root, 'parents', eZCMISServiceURL::createURL( 'parents', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
+            self::createLink( $doc, $root, 'up', eZCMISServiceURL::createURL( 'parents', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
             self::createLink( $doc, $root, 'allversions', eZCMISServiceURL::createURL( 'versions', array( 'repositoryId' => $repositoryId, 'versionSeriesId' => $cmisObject->getVersionSeriesId() ) ) );
-            self::createLink( $doc, $root, 'stream', eZCMISServiceURL::createURL( 'content', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ), $cmisObject->getContentStreamMimeType() );
         }
 
-        // @TODO: perhaps there is basetype needed instead of object type id
-        self::createLink( $doc, $root, 'type', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => $repositoryId, 'typeId' => $cmisObject->getObjectTypeId() ) ) );
-        self::createLink( $doc, $root, 'repository', eZCMISServiceURL::createURL( 'repository', array( 'repositoryId' => $repositoryId ) ) );
+        self::createLink( $doc, $root, 'describedby', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => $repositoryId, 'typeId' => $cmisObject->getObjectTypeId() ) ) );
+        self::createLink( $doc, $root, 'service', eZCMISServiceURL::createURL( 'repository', array( 'repositoryId' => $repositoryId ) ) );
 
         $creationDate = $cmisObject->getCreationDate();
         $modificationDate = $cmisObject->getLastModificationDate();
@@ -208,53 +207,46 @@ class eZCMISServiceGetProperties extends eZCMISServiceBase
         $updated = $doc->createElement( 'updated', $modificationDate );
         $root->appendChild( $updated );
 
-        $object = $doc->createElement( 'cmis:object' );
+        $object = $doc->createElement( 'cmisra:object' );
         $root->appendChild( $object );
         $properties = $doc->createElement( 'cmis:properties' );
         $object->appendChild( $properties );
 
-        self::createPropertyItem( $doc, $properties, 'Id', 'ObjectId', $objectId );
-        self::createPropertyItem( $doc, $properties, 'String', 'BaseType', $cmisObject->getBaseType() );
-        self::createPropertyItem( $doc, $properties, 'Id', 'ObjectTypeId', $cmisObject->getObjectTypeId() );
-        self::createPropertyItem( $doc, $properties, 'String', 'CreatedBy', $owner );
-        self::createPropertyItem( $doc, $properties, 'DateTime', 'CreationDate', $creationDate );
-        self::createPropertyItem( $doc, $properties, 'DateTime', 'LastModificationDate', $modificationDate );
-        self::createPropertyItem( $doc, $properties, 'String', 'Name', $name );
+        self::createPropertyItem( $doc, $properties, 'Id', 'objectId', $objectId );
+        self::createPropertyItem( $doc, $properties, 'Id', 'baseTypeId', $cmisObject->getBaseType() );
+        self::createPropertyItem( $doc, $properties, 'Id', 'objectTypeId', $cmisObject->getObjectTypeId() );
+        self::createPropertyItem( $doc, $properties, 'String', 'createdBy', $owner );
+        self::createPropertyItem( $doc, $properties, 'DateTime', 'creationDate', $creationDate );
+        self::createPropertyItem( $doc, $properties, 'DateTime', 'lastModificationDate', $modificationDate );
+        self::createPropertyItem( $doc, $properties, 'String', 'name', $name );
         // @TODO
-        self::createPropertyItem( $doc, $properties, 'String', 'ChangeToken', '' );
-        // @TODO
-        self::createPropertyItem( $doc, $properties, 'Uri', 'Uri', '' );
+        self::createPropertyItem( $doc, $properties, 'String', 'changeToken', '' );
         // @TODO: Need to figure out how to define this property
-        self::createPropertyItem( $doc, $properties, 'String', 'LastModifiedBy', $owner );
+        self::createPropertyItem( $doc, $properties, 'String', 'lastModifiedBy', $owner );
 
         if ( $cmisObject->isFolder() )
         {
             $parentId = $repositoryId != $objectId ? $cmisObject->getParentId() : '';
-            self::createPropertyItem( $doc, $properties, 'Id', 'ParentId', $parentId );
+            self::createPropertyItem( $doc, $properties, 'Id', 'parentId', $parentId );
             // @TODO
-            self::createPropertyItem( $doc, $properties, 'Id', 'AllowedChildObjectTypeIds', '' );
+            self::createPropertyItem( $doc, $properties, 'Id', 'allowedChildObjectTypeIds', '' );
         }
         elseif ( $cmisObject->isDocument() )
         {
-            self::createPropertyItem( $doc, $properties, 'Boolean', 'IsImmutable', $cmisObject->isImmutable() );
-            self::createPropertyItem( $doc, $properties, 'Boolean', 'IsLatestVersion', $cmisObject->isLatestVersion() );
-            self::createPropertyItem( $doc, $properties, 'Boolean', 'IsMajorVersion', $cmisObject->isMajorVersion() );
-            self::createPropertyItem( $doc, $properties, 'Boolean', 'IsLatestMajorVersion', $cmisObject->isLatestMajorVersion() );
-            self::createPropertyItem( $doc, $properties, 'String', 'VersionLabel', $cmisObject->getVersionLabel() );
-            self::createPropertyItem( $doc, $properties, 'Id', 'VersionSeriesId', $cmisObject->getVersionSeriesId() );
-            self::createPropertyItem( $doc, $properties, 'Boolean', 'IsVersionSeriesCheckedOut', $cmisObject->isVersionSeriesCheckedOut() );
-            self::createPropertyItem( $doc, $properties, 'String', 'VersionSeriesCheckedOutBy', $cmisObject->getVersionSeriesCheckedOutBy() );
-            self::createPropertyItem( $doc, $properties, 'Integer', 'ContentStreamLength', $cmisObject->getContentStreamLength() );
-            self::createPropertyItem( $doc, $properties, 'String', 'ContentStreamMimeType', $cmisObject->getContentStreamMimeType() );
-            self::createPropertyItem( $doc, $properties, 'String', 'ContentStreamFilename', $cmisObject->getContentStreamFilename() );
-            self::createPropertyItem( $doc, $properties, 'String', 'CheckinComment', $cmisObject->getCheckinComment() );
-            self::createPropertyItem( $doc, $properties, 'Uri', 'ContentStreamURI', eZCMISServiceURL::createURL( 'content', array( 'repositoryId' => $repositoryId, 'objectId' => $objectId ) ) );
-            self::createPropertyItem( $doc, $properties, 'String', 'ContentStreamAllowed', $cmisObject->getContentStreamAllowed() );
-            self::createPropertyItem( $doc, $properties, 'String', 'VersionSeriesCheckedOutId', $cmisObject->getVersionSeriesCheckedOutId() );
+            self::createPropertyItem( $doc, $properties, 'Boolean', 'isImmutable', $cmisObject->isImmutable() );
+            self::createPropertyItem( $doc, $properties, 'Boolean', 'isLatestVersion', $cmisObject->isLatestVersion() );
+            self::createPropertyItem( $doc, $properties, 'Boolean', 'isMajorVersion', $cmisObject->isMajorVersion() );
+            self::createPropertyItem( $doc, $properties, 'Boolean', 'isLatestMajorVersion', $cmisObject->isLatestMajorVersion() );
+            self::createPropertyItem( $doc, $properties, 'String', 'versionLabel', $cmisObject->getVersionLabel() );
+            self::createPropertyItem( $doc, $properties, 'Id', 'versionSeriesId', $cmisObject->getVersionSeriesId() );
+            self::createPropertyItem( $doc, $properties, 'Boolean', 'isVersionSeriesCheckedOut', $cmisObject->isVersionSeriesCheckedOut() );
+            self::createPropertyItem( $doc, $properties, 'String', 'versionSeriesCheckedOutBy', $cmisObject->getVersionSeriesCheckedOutBy() );
+            self::createPropertyItem( $doc, $properties, 'Integer', 'contentStreamLength', $cmisObject->getContentStreamLength() );
+            self::createPropertyItem( $doc, $properties, 'String', 'contentStreamMimeType', $cmisObject->getContentStreamMimeType() );
+            self::createPropertyItem( $doc, $properties, 'String', 'contentStreamFileName', $cmisObject->getContentStreamFileName() );
+            self::createPropertyItem( $doc, $properties, 'Id', 'contentStreamId', '' );
+            self::createPropertyItem( $doc, $properties, 'String', 'versionSeriesCheckedOutId', $cmisObject->getVersionSeriesCheckedOutId() );
         }
-
-        $terminator = $doc->createElement( 'cmis:terminator' );
-        $root->appendChild( $terminator );
 
         $edited = $doc->createElement( 'app:edited', $modificationDate );
         $root->appendChild( $edited );
@@ -265,15 +257,15 @@ class eZCMISServiceGetProperties extends eZCMISServiceBase
     /**
      * Creates a property for CMIS object
      */
-    public static function createPropertyItem( DOMDocument $doc, DOMElement $properties, $type, $name, $value, $prefix = 'cmis'  )
+    public static function createPropertyItem( DOMDocument $doc, DOMElement $properties, $type, $name, $value, $prefix = 'cmis:'  )
     {
-        $element = $doc->createElement( $prefix . ':property' . $type );
+        $element = $doc->createElement( $prefix . 'property' . $type );
         if ( !empty( $value ) )
         {
-            $element->appendChild( $doc->createElement( $prefix . ':value', htmlentities( $value ) ) );
+            $element->appendChild( $doc->createElement( $prefix . 'value', htmlentities( $value ) ) );
         }
 
-        $element->setAttribute( $prefix . ':name', $name );
+        $element->setAttribute( 'propertyDefinitionId', $prefix . $name );
         $properties->appendChild( $element );
     }
 

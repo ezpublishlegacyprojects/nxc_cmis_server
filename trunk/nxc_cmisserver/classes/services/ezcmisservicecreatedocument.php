@@ -167,7 +167,7 @@ class eZCMISServiceCreateDocument extends eZCMISServiceBase
             eZCMISExceptions::isNotProvided( 'title' );
         }
 
-        $newObject = eZCMISObjectHandler::createNew( $typeId, $folderId );
+        $newObject = eZCMISObjectHandler::createNew( eZCMISTypeHandler::getClassIdByTypeId( $typeId ), $folderId );
         if ( !$newObject )
         {
             throw new eZCMISRuntimeException( ezi18n( 'cmis', 'Could not create new CMIS object' ) );

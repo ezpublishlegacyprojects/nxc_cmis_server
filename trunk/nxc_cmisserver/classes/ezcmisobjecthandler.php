@@ -38,7 +38,8 @@ class eZCMISObjectHandler
      */
     public static function getObject( $node )
     {
-        $baseType = $node ? eZCMISTypeHandler::getBaseTypeByTypeId( $node->classIdentifier() ) : false;
+        $baseType = $node ? eZCMISTypeHandler::getCMISClassName( $node->classIdentifier() ) : false;
+
         if ( !$baseType )
         {
             return false;
@@ -98,7 +99,7 @@ class eZCMISObjectHandler
 
         if ( !$class )
         {
-           throw new eZCMISRuntimeException( ezi18n( 'cmis', "Could not fetch class by identifier '%class%'", null, array( '%class%' => $classIdentifier ) ) );
+            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Could not fetch class by identifier '%class%'", null, array( '%class%' => $classIdentifier ) ) );
         }
 
         $contentObject = $class->instantiate();

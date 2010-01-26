@@ -37,7 +37,7 @@ class eZCMIS
     /**
      * Version of supported CMIS
      */
-    const VERSION = '0.61';
+    const VERSION = '1.0';
 
     /**
      * Vendor of CMIS
@@ -148,17 +148,21 @@ class eZCMIS
      */
     public static function getCapabilities()
     {
-        return array( 'capabilityMultifiling' => 'false', // should be true?
+        return array( 'capabilityACL' => 'none',
+                      'capabilityAllVersionsSearchable' => 'false',
+                      'capabilityChanges' => 'none',
+                      'capabilityContentStreamUpdatability' => 'anytime',
+                      'capabilityGetDescendants' => 'true',
+                      'capabilityGetFolderTree' => 'false',
+                      'capabilityMultifiling' => 'false',
+                      'capabilityPWCSearchable' => 'false',
+                      'capabilityPWCUpdatable' => 'false',
+                      'capabilityQuery' => 'none',
+                      'capabilityRenditions' => 'none',
                       'capabilityUnfiling' => 'false',
                       'capabilityVersionSpecificFiling' => 'false',
-                      'capabilityPWCUpdateable' => 'true',
-                      'capabilityPWCSearchable' => 'false',
-                      'capabilityAllVersionsSearchable' => 'false',
-                      'capabilityQuery' => 'none',
                       'capabilityJoin' => 'none',
-                      'capabilityChanges' => 'none',
-                      'changesIncomplete' => 'false',
-                      'capabilityACL' => 'none' );
+                       );
     }
 
     /**

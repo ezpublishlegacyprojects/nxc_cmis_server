@@ -34,12 +34,12 @@ class eZCMISTypeHandler
     /**
      * CMIS Object folder
      */
-    const FOLDER_OBJECT = 'folder';
+    const FOLDER_OBJECT = 'cmis:folder';
 
     /**
      * CMIS Object document
      */
-    const DOCUMENT_OBJECT = 'document';
+    const DOCUMENT_OBJECT = 'cmis:document';
 
     /**
      * Provides all registred CMIS types
@@ -54,7 +54,14 @@ class eZCMISTypeHandler
         }
 
         $ini = eZINI::instance( 'type.ini' );
-        $GLOBALS[$name] = $ini->groups();
+
+        $result = array();
+        foreach ( $ini->groups() as $type )
+        {
+            $result[$type['id']] = $type;
+        }
+
+        $GLOBALS[$name] = $result;
 
         return $GLOBALS[$name];
     }
@@ -80,7 +87,7 @@ class eZCMISTypeHandler
         {
             foreach ( $allTypes as $key => $type )
             {
-                $groupTypeId = isset( $type['typeId'] ) ? $type['typeId'] : false;
+                $groupTypeId = isset( $type['id'] ) ? $type['id'] : false;
                 if ( !$groupTypeId )
                 {
                     continue;
@@ -117,17 +124,16 @@ class eZCMISTypeHandler
      */
     protected static function findTypeDescendants( $typeId, $depth = 1, $currentDepth = 0 )
     {
-        $allTypes = self::getAllTypes();
         $result = array();
         if ( $currentDepth >= $depth )
         {
             return $result;
         }
 
-        foreach ( $allTypes as $key => $type )
+        foreach ( self::getAllTypes() as $key => $type )
         {
             $groupParentId = isset( $type['parentId'] ) ? $type['parentId'] : false;
-            $groupTypeId = isset( $type['typeId'] ) ? $type['typeId'] : false;
+            $groupTypeId = isset( $type['id'] ) ? $type['id'] : false;
             if ( !$groupParentId or !$groupTypeId )
             {
                 continue;
@@ -156,15 +162,17 @@ class eZCMISTypeHandler
     {
         $result = array();
 
-        $typeId = isset( $typeInfo['typeId'] ) ? $typeInfo['typeId'] : false;
+        $typeId = isset( $typeInfo['id'] ) ? $typeInfo['id'] : false;
         if ( !$typeId )
         {
             return $result;
         }
 
         $result = $typeInfo;
-        $class = eZContentClass::fetchByIdentifier( $typeId );
+        $class = eZContentClass::fetchByIdentifier( isset( $typeInfo['localName'] ) ? $typeInfo['localName'] : ( isset( $type['id'] ) ? eZCMISAtomTools::removeNamespaces( $type['id'] ) : false ) );
         $result['displayName'] = $class ? $class->attribute( 'name' ) : '';
+        $result['queryName'] = isset( $typeInfo['id'] ) ? $typeInfo['id'] : '';
+
         if ( isset( $result['contentStreamAllowed'] ) )
         {
             $contentStreamList = self::getContentStreamAllowedEnum();
@@ -172,7 +180,6 @@ class eZCMISTypeHandler
             if ( !in_array( $result['contentStreamAllowed'], $contentStreamList ) )
             {
                 $result['contentStreamAllowed'] = $contentStreamList['default'];
-
             }
         }
 
@@ -233,7 +240,37 @@ class eZCMISTypeHandler
     }
 
     /**
-     * Provides base type, like 'folder' or 'document', by object type id (class id) or its alias
+     * Provides hardcoded base type
+     *
+     * @return string
+     */
+    protected static function getBaseType( $type )
+    {
+        switch ( $type )
+        {
+            case self::DOCUMENT_OBJECT:
+            {
+                $result = self::DOCUMENT_OBJECT;
+            } break;
+
+            case self::FOLDER_OBJECT:
+            {
+                $result = self::FOLDER_OBJECT;
+            } break;
+
+            default:
+            {
+                throw new eZCMISRuntimeException( ezi18n( 'cmis', "Unknown Base Type configured: '%type%'", null, array( '%type%' => $type ) ) );
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Provides base type, like 'cmis:folder' or 'cmis:document', by object type id or its alias
+     *
+     * @param string object type id like 'cmis:file'
      */
     public static function getBaseTypeByTypeId( $typeId )
     {
@@ -244,12 +281,11 @@ class eZCMISTypeHandler
             return $GLOBALS[$name];
         }
 
-        $types = self::getAllTypes();
         $result = false;
 
-        foreach ( $types as $type )
+        foreach ( self::getAllTypes() as $type )
         {
-            $groupTypeId = isset( $type['typeId'] ) ? $type['typeId'] : false;
+            $groupTypeId = isset( $type['id'] ) ? $type['id'] : false;
             if ( !$groupTypeId )
             {
                 continue;
@@ -259,24 +295,9 @@ class eZCMISTypeHandler
 
             if ( ( $groupTypeId == $typeId ) or in_array( $typeId, $aliases ) )
             {
-                $groupBaseType = isset( $type['baseType'] ) ? $type['baseType'] : false;
-                switch ( $groupBaseType )
-                {
-                    case self::DOCUMENT_OBJECT:
-                    {
-                        $result = self::DOCUMENT_OBJECT;
-                    } break;
+                $result = self::getBaseType( isset( $type['baseId'] ) ? $type['baseId'] : false );
 
-                    case self::FOLDER_OBJECT:
-                    {
-                        $result = self::FOLDER_OBJECT;
-                    } break;
-
-                    default:
-                    {
-                        throw new eZCMISRuntimeException( ezi18n( 'cmis', "Unknown Base Type configured: '%type%'", null, array( '%type%' => $groupBaseType ) ) );
-                    }
-                }
+                break;
             }
         }
 
@@ -286,10 +307,91 @@ class eZCMISTypeHandler
     }
 
     /**
-     * Provides class identifier by object \a $typeId (it can be alias)
-     * which can be instantiated
+     * Provides base type, like 'folder' or 'document', by \a $classId
      *
-     * @return string|bool
+     * @param string class identifier
+     *
+     * @return string
+     */
+    public static function getCMISClassName( $classId )
+    {
+        $name = __METHOD__ . $classId;
+
+        if ( isset( $GLOBALS[$name] ) and $GLOBALS[$name] )
+        {
+            return $GLOBALS[$name];
+        }
+
+        $result = false;
+
+        foreach ( self::getAllTypes() as $type )
+        {
+            $localName = isset( $type['localName'] ) ? $type['localName'] : ( isset( $type['id'] ) ? eZCMISAtomTools::removeNamespaces( $type['id'] ) : false );
+            if ( !$localName )
+            {
+                continue;
+            }
+
+            $aliases = isset( $type['aliasList'] ) ? $type['aliasList'] : array();
+
+            if ( ( $localName == $classId ) or in_array( $classId, $aliases ) )
+            {
+                $result = self::getBaseType( isset( $type['baseId'] ) ? $type['baseId'] : false );
+
+                break;
+            }
+        }
+
+        $GLOBALS[$name] = eZCMISAtomTools::removeNamespaces( $result );;
+
+        return $GLOBALS[$name];
+    }
+
+    /**
+     * Provides base type, like 'folder' or 'document', by \a $classId
+     *
+     * @param string class identifier
+     *
+     * @return string
+     */
+    public static function getClassIdByTypeId( $typeId )
+    {
+        $name = __METHOD__ . $typeId;
+
+        if ( isset( $GLOBALS[$name] ) and $GLOBALS[$name] )
+        {
+            return $GLOBALS[$name];
+        }
+
+        $result = false;
+
+        foreach ( self::getAllTypes() as $type )
+        {
+            $groupTypeId = isset( $type['id'] ) ? $type['id'] : false;
+            if ( !$groupTypeId )
+            {
+                continue;
+            }
+
+            $aliases = isset( $type['aliasList'] ) ? $type['aliasList'] : array();
+
+            if ( ( $groupTypeId == $typeId ) or in_array( $typeId, $aliases ) )
+            {
+                $result = isset( $type['localName'] ) ? $type['localName'] : ( isset( $type['id'] ) ? eZCMISAtomTools::removeNamespaces( $type['id'] ) : false );
+
+                break;
+            }
+        }
+
+        $GLOBALS[$name] = $result;
+
+        return $GLOBALS[$name];
+    }
+
+    /**
+     * Provides object type id instead of alias by object \a $typeId
+     *
+     * @return string
      */
     public static function getRealTypeId( $typeId )
     {
@@ -300,12 +402,11 @@ class eZCMISTypeHandler
             return $GLOBALS[$name];
         }
 
-        $types = self::getAllTypes();
-        $result = false;
+        $result = $typeId;
 
-        foreach ( $types as $type )
+        foreach ( self::getAllTypes() as $type )
         {
-            $groupTypeId = isset( $type['typeId'] ) ? $type['typeId'] : false;
+            $groupTypeId = isset( $type['id'] ) ? $type['id'] : false;
             if ( !$groupTypeId )
             {
                 continue;
@@ -320,6 +421,45 @@ class eZCMISTypeHandler
             if ( ( $groupTypeId == $typeId ) or in_array( $typeId, $aliases ) )
             {
                 $result = $groupTypeId;
+
+                break;
+            }
+        }
+
+        $GLOBALS[$name] = $result;
+
+        return $result;
+    }
+
+    /**
+     * Provides object type id by its local name (class identifier)
+     *
+     * @return string
+     */
+    public static function getTypeIdByLocalName( $localName )
+    {
+        $name = __METHOD__ . $localName;
+
+        if ( isset( $GLOBALS[$name] ) and $GLOBALS[$name] )
+        {
+            return $GLOBALS[$name];
+        }
+
+        $result = $typeId;
+
+        foreach ( self::getAllTypes() as $type )
+        {
+            $groupLocalName = isset( $type['localName'] ) ? $type['localName'] : ( isset( $type['id'] ) ? eZCMISAtomTools::removeNamespaces( $type['id'] ) : false );
+            if ( !$groupLocalName )
+            {
+                continue;
+            }
+
+            if ( $groupLocalName == $localName )
+            {
+                $result = isset( $type['id'] ) ? $type['id'] : false;
+
+                break;
             }
         }
 
@@ -345,7 +485,7 @@ class eZCMISTypeHandler
      */
     public static function isDocument( $type )
     {
-      return $type == self::DOCUMENT_OBJECT;
+        return $type == self::DOCUMENT_OBJECT;
     }
 
     /**
@@ -356,11 +496,10 @@ class eZCMISTypeHandler
     public static function getContentAttributeId( $typeId )
     {
         $result = false;
-        $types = self::getAllTypes();
 
-        foreach ( $types as $type )
+        foreach ( self::getAllTypes() as $type )
         {
-            $groupTypeId = isset( $type['typeId'] ) ? $type['typeId'] : false;
+            $groupTypeId = isset( $type['id'] ) ? $type['id'] : false;
             if ( !$groupTypeId )
             {
                 continue;
@@ -373,6 +512,8 @@ class eZCMISTypeHandler
                 {
                     throw new eZCMISRuntimeException( ezi18n( 'cmis', "No attribute identifier provided for class '%class%'", null, array( '%class%' => $class[0] ) ) );
                 }
+
+                break;
             }
         }
 
@@ -380,7 +521,7 @@ class eZCMISTypeHandler
     }
 
     /**
-     * Provides all supported types
+     * Provides all supported  types (class identifiers)
      *
      * @return array of types
      */
@@ -393,18 +534,17 @@ class eZCMISTypeHandler
             return $GLOBALS[$name];
         }
 
-        $types = self::getAllTypes();
         $result = array();
 
-        foreach ( $types as $type )
+        foreach ( self::getAllTypes() as $type )
         {
-            $groupTypeId = isset( $type['typeId'] ) ? $type['typeId'] : false;
-            if ( !$groupTypeId )
+            $localName = isset( $type['localName'] ) ? $type['localName'] : ( isset( $type['id'] ) ? eZCMISAtomTools::removeNamespaces( $type['id'] ) : false );
+            if ( !$localName )
             {
                 continue;
             }
 
-            $result[] = $groupTypeId;
+            $result[] = $localName;
         }
 
         $GLOBALS[$name] = $result;

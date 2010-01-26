@@ -142,15 +142,13 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
 
         $repositoryInfo['repositoryId'] = $repositoryId;
         $repositoryInfo['repositoryName'] = $name;
-        $repositoryInfo['repositoryRelationship'] = isset( $repositoryArray['Relationship'] ) ? $repositoryArray['Relationship'] : 'self';
         $repositoryInfo['repositoryDescription'] = isset( $repositoryArray['Description'] ) ? $repositoryArray['Description'] : '';
         $repositoryInfo['vendorName'] = eZCMIS::VENDOR;
         $repositoryInfo['productName'] = eZCMIS::VENDOR;
         $repositoryInfo['productVersion'] = eZPublishSDK::version();
-        $repositoryInfo['rootFolderId'] = eZCMISServiceURL::createURL( 'node', array( 'repositoryId' => $repositoryId, 'objectId' => $repositoryId ) );
+        $repositoryInfo['rootFolderId'] = $repositoryId;
         $repositoryInfo['capabilities'] = eZCMIS::getCapabilities();
         $repositoryInfo['cmisVersionSupported'] = eZCMIS::VERSION;
-        $repositoryInfo['repositorySpecificInformation'] = isset( $repositoryArray['SpecificInformation'] ) ? $repositoryArray['SpecificInformation'] : '';
 
         return $repositoryInfo;
     }
@@ -163,24 +161,19 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
         $repositoryId = isset( $repositoryInfo['repositoryId'] ) ? $repositoryInfo['repositoryId'] : '';
 
         return array( array( 'url' => eZCMISServiceURL::createURL( 'children', array( 'repositoryId' => $repositoryId, 'folderId' => $repositoryId ) ),
-                             'type' => 'rootchildren',
-                             'value' => 'root collection' ),
-                      array( 'url' => eZCMISServiceURL::createURL( 'descendants', array( 'repositoryId' => $repositoryId, 'folderId' => $repositoryId ) ),
-                             'type' => 'rootdescendants',
+                             'type' => 'root',
                              'value' => 'root collection' ),
                       array( 'url' => eZCMISServiceURL::createURL( 'checkedout', array( 'repositoryId' => $repositoryId ) ),
                              'type' => 'checkedout',
+                             'accept' => 'application/atom+xml;type=entry',
                              'value' => 'checkedout collection' ),
                       array( 'url' => eZCMISServiceURL::createURL( 'types', array( 'repositoryId' => $repositoryId ) ),
-                             'type' => 'typeschildren',
+                             'type' => 'types',
                              'value' => 'type collection' ),
-                      array( 'url' => eZCMISServiceURL::createURL( 'types', array( 'repositoryId' => $repositoryId ) ),
-                             'type' => 'typesdescendants',
-                             'value' => 'type collection' ),
-                      /*array( 'url' => $apiURL . '/query',
+                      array( 'url' => eZCMISServiceURL::createURL( 'query', array( 'repositoryId' => $repositoryId ) ),
                              'type' => 'query',
+                             'accept' => 'application/cmisquery+xml',
                              'value' => 'query collection' )
-                      */
                       );
 
     }
@@ -197,12 +190,11 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
         $root = eZCMISAtomTools::createRootNode( $doc, 'service', 'app' );
         $doc->appendChild( $root );
         $workspace = $doc->createElement( 'workspace' );
-        $workspace->setAttribute( 'cmis:repositoryRelationship', $repositoryInfo['repositoryRelationship'] );
         $root->appendChild( $workspace );
         $title = $doc->createElement( 'atom:title', $repositoryInfo['repositoryName'] );
         $workspace->appendChild( $title );
-        $info = eZCMISAtomTools::createElementByArray( $doc, 'repositoryInfo', $repositoryInfo );
-        $workspace->appendChild( $info );
+
+        $repositoryId = isset( $repositoryInfo['repositoryId'] ) ? $repositoryInfo['repositoryId'] : '';
 
         // Create collection list
         $collectionList = self::getCollectionList( $repositoryInfo );
@@ -211,11 +203,40 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
         {
             $element = $doc->createElement( 'collection' );
             $element->setAttribute( 'href', $collection['url'] );
-            $element->setAttribute( 'cmis:collectionType', $collection['type'] );
             $workspace->appendChild( $element );
             $value = $doc->createElement( 'atom:title', $collection['value'] );
             $element->appendChild( $value );
+
+            if ( isset( $collection['accept'] ) )
+            {
+                $accept = $doc->createElement( 'accept', $collection['accept'] );
+                $element->appendChild( $accept );
+            }
+
+            $type = $doc->createElement( 'cmisra:collectionType', $collection['type'] );
+            $element->appendChild( $type );
         }
+
+        $rootDescendants = $doc->createElement( 'atom:link' );
+        $rootDescendants->setAttribute( 'title', 'root descendants' );
+        $rootDescendants->setAttribute( 'type', 'application/cmistree+xml' );
+        $rootDescendants->setAttribute( 'rel', 'http://docs.oasis-open.org/ns/cmis/link/200908/rootdescendants' );
+        $rootDescendants->setAttribute( 'href', eZCMISServiceURL::createURL( 'descendants', array( 'repositoryId' => $repositoryId, 'folderId' => $repositoryId ) ) );
+        $workspace->appendChild( $rootDescendants );
+
+        $typeDescendants = $doc->createElement( 'atom:link' );
+        $typeDescendants->setAttribute( 'title', 'type descendants' );
+        $typeDescendants->setAttribute( 'type', 'application/cmistree+xml' );
+        $typeDescendants->setAttribute( 'rel', 'http://docs.oasis-open.org/ns/cmis/link/200908/typesdescendants' );
+        $typeDescendants->setAttribute( 'href', eZCMISServiceURL::createURL( 'types', array( 'repositoryId' => $repositoryId ) ) );
+        $workspace->appendChild( $typeDescendants );
+
+        $info = eZCMISAtomTools::createElementByArray( $doc, 'repositoryInfo', $repositoryInfo, 'cmisra:' );
+        $workspace->appendChild( $info );
+
+        // Create template definitions
+        self::createTemplate( $doc, $workspace, 'objectbyid', eZCMISServiceURL::createURL( 'node', array( 'repositoryId' => '{repositoryId}', 'objectId' => '{id}' ) ) );
+        self::createTemplate( $doc, $workspace, 'typebyid', eZCMISServiceURL::createURL( 'type', array( 'repositoryId' => '{repositoryId}', 'typeId' => '{id}' ) ) );
 
         return $doc->saveXML();
     }
@@ -251,6 +272,22 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
         $repositoryInfo = $this->getRepositoryInfo();
 
         return $repositoryInfo['repositoryId'];
+    }
+
+    /**
+     * Creates template structure
+     */
+    protected static function createTemplate( DOMDocument $doc, DOMElement $workspace, $name, $uri, $mediaTypeStr = 'application/atom+xml;type=entry' )
+    {
+        $uriTemplate = $doc->createElement( 'cmisra:uritemplate' );
+        $template = $doc->createElement( 'cmisra:template', htmlentities( $uri ) );
+        $type = $doc->createElement( 'cmisra:type', $name );
+        $mediaType = $doc->createElement( 'cmisra:mediatype', $mediaTypeStr );
+        $uriTemplate->appendChild( $template );
+        $uriTemplate->appendChild( $type );
+        $uriTemplate->appendChild( $mediaType );
+
+        $workspace->appendChild( $uriTemplate );
     }
 }
 ?>
