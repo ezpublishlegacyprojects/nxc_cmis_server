@@ -48,7 +48,7 @@ class eZCMISObjectHandler
         $includeFile = eZExtension::baseDirectory() . '/nxc_cmisserver/classes/objects/ezcmisobject' . $baseType . '.php';
         if ( !file_exists( $includeFile ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "File does not exist: '%file%'", null, array( '%file%' => $includeFile ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "File does not exist: '%file%'", null, array( '%file%' => $includeFile ) ) );
         }
 
         include_once( $includeFile );
@@ -56,7 +56,7 @@ class eZCMISObjectHandler
         $class = 'eZCMISObject' . ucfirst( $baseType );
         if ( !class_exists( $class ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Class does not exist: '%class%'", null, array( '%class%' => $class ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Class does not exist: '%class%'", null, array( '%class%' => $class ) ) );
         }
 
         return new $class( $node, $baseType );
@@ -84,7 +84,7 @@ class eZCMISObjectHandler
         $parentNode = self::fetchNode( $parentId );
         if ( !$parentNode )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Node ('%node_id%') does not exist", null, array( '%node_id%' => $parentId ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Node ('%node_id%') does not exist", null, array( '%node_id%' => $parentId ) ) );
         }
 
         $parentNodeId = $parentNode->attribute( 'node_id' );
@@ -99,14 +99,14 @@ class eZCMISObjectHandler
 
         if ( !$class )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Could not fetch class by identifier '%class%'", null, array( '%class%' => $classIdentifier ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Could not fetch class by identifier '%class%'", null, array( '%class%' => $classIdentifier ) ) );
         }
 
         $contentObject = $class->instantiate();
 
         if ( !$contentObject )
         {
-            throw new eZCMISRuntimeException( ezi18n( "Could not instatiate content object by class identifier '%class%'", null, array( '%class%' => $classIdentifier ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis',  "Could not instatiate content object by class identifier '%class%'", null, array( '%class%' => $classIdentifier ) ) );
         }
 
         $version = $contentObject->attribute( 'current_version' );

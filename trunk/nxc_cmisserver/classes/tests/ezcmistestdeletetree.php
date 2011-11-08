@@ -53,7 +53,7 @@ class eZCMISTestDeleteTree extends eZCMISTestBase
 
         if ( !$rootChildrenLink )
         {
-            $this->addMessage( ezi18n( 'cmis', "Could not fetch 'rootchildren' collection" ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', "Could not fetch 'rootchildren' collection" ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -113,21 +113,21 @@ class eZCMISTestDeleteTree extends eZCMISTestBase
 
         if ( !$objectId )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "ObjectId" value' ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "ObjectId" value' ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
 
         if ( !$childrenLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'children' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'children' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
 
         if ( !$descendantsLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'descendants' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'descendants' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -187,7 +187,7 @@ class eZCMISTestDeleteTree extends eZCMISTestBase
 
         if ( !$objectId )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "ObjectId"' ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "ObjectId"' ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }

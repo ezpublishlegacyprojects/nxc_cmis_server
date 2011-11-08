@@ -78,12 +78,12 @@ abstract class eZCMISModuleBase
 
         if ( !$function )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', 'Method not allowed' ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', 'Method not allowed' ) );
         }
 
         if ( !is_callable( array( $this, $function ) ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Class '%service%' does not have method '%method%'", null, array( '%service%' => get_class( $this ), '%method%' => $function ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Class '%service%' does not have method '%method%'", null, array( '%service%' => get_class( $this ), '%method%' => $function ) ) );
         }
 
         return $this->$function();

@@ -260,7 +260,7 @@ class eZCMISTypeHandler
 
             default:
             {
-                throw new eZCMISRuntimeException( ezi18n( 'cmis', "Unknown Base Type configured: '%type%'", null, array( '%type%' => $type ) ) );
+                throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Unknown Base Type configured: '%type%'", null, array( '%type%' => $type ) ) );
             }
         }
 
@@ -445,6 +445,7 @@ class eZCMISTypeHandler
             return $GLOBALS[$name];
         }
 
+        if( empty( $typeId ) ) $typeId = "";
         $result = $typeId;
 
         foreach ( self::getAllTypes() as $type )
@@ -510,7 +511,7 @@ class eZCMISTypeHandler
                 $result = isset( $type['contentAttributeId'] ) ? $type['contentAttributeId'] : false;
                 if ( !$result )
                 {
-                    throw new eZCMISRuntimeException( ezi18n( 'cmis', "No attribute identifier provided for class '%class%'", null, array( '%class%' => $class[0] ) ) );
+                    throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "No attribute identifier provided for class '%class%'", null, array( '%class%' => $class[0] ) ) );
                 }
 
                 break;

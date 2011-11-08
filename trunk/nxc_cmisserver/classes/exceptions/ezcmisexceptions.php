@@ -36,7 +36,7 @@ class eZCMISExceptions
      */
     public static function accessDenied()
     {
-        throw new eZCMISPermissionDeniedException( ezi18n( 'cmis', 'Access denied' ) );
+        throw new eZCMISPermissionDeniedException( ezpI18n::tr( 'cmis', 'Access denied' ) );
     }
 
     /**
@@ -44,7 +44,7 @@ class eZCMISExceptions
      */
     public static function resourceIsNotAvailable()
     {
-        throw new eZCMISObjectNotFoundException( ezi18n( 'cmis', 'Requested resource is not available' ) );
+        throw new eZCMISObjectNotFoundException( ezpI18n::tr( 'cmis', 'Requested resource is not available' ) );
     }
 
     /**
@@ -52,7 +52,7 @@ class eZCMISExceptions
      */
     public static function isNotProvided( $var )
     {
-        throw new eZCMISInvalidArgumentException( "'" . $var . "' " . ezi18n( 'cmis', 'is not provided' ) );
+        throw new eZCMISInvalidArgumentException( "'" . $var . "' " . ezpI18n::tr( 'cmis', 'is not provided' ) );
     }
 
     /**
@@ -60,7 +60,7 @@ class eZCMISExceptions
      */
     public static function contentStreamIsNotSupported()
     {
-        throw new eZCMISStreamNotSupportedException( ezi18n( 'cmis', 'Content stream is not supported' ) );
+        throw new eZCMISStreamNotSupportedException( ezpI18n::tr( 'cmis', 'Content stream is not supported' ) );
     }
 
     /**
@@ -68,7 +68,7 @@ class eZCMISExceptions
      */
     public static function contentStreamIsRequired()
     {
-        throw new eZCMISConstraintViolationException( ezi18n( 'cmis', 'Content stream is required' ) );
+        throw new eZCMISConstraintViolationException( ezpI18n::tr( 'cmis', 'Content stream is required' ) );
     }
 
 }

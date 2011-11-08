@@ -95,7 +95,7 @@ class eZCMISServiceDeleteTree extends eZCMISServiceBase
         // If the object is the Root Folder,
         if ( $repositoryId == $folderId )
         {
-           throw new eZCMISOperationNotSupportedException( ezi18n( 'cmis', 'Root folder cannot be removed' ) );
+           throw new eZCMISOperationNotSupportedException( ezpI18n::tr( 'cmis', 'Root folder cannot be removed' ) );
         }
 
         if ( !$node->canRemove() )

@@ -92,7 +92,7 @@ class eZCMISModuleChildren extends eZCMISModuleBase
             }
             else
             {
-                throw new eZCMISRuntimeException( ezi18n( 'cmis', 'Unknown type: %type%', null, array( '%type%' => $typeId ) ) );
+                throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', 'Unknown type: %type%', null, array( '%type%' => $typeId ) ) );
             }
         }
 

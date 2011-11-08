@@ -121,11 +121,11 @@ class eZCMISTestHandler
      */
     protected function startTests()
     {
-        $this->addMessage( ezi18n( 'cmis', 'Test Started at' ) . ' ' . date( 'Y-m-d H:i:s' ) );
-        $this->addMessage( ezi18n( 'cmis', 'Service URL:' ) . ' ' . $this->ServiceURL );
-        $this->addMessage( ezi18n( 'cmis', 'User:' ) . ' ' . $this->User );
-        $this->addMessage( ezi18n( 'cmis', 'Password:' ) . ' ' . $this->Password );
-        $this->addMessage( ezi18n( 'cmis', 'Tests:' ) . ' ' . implode( ', ', $this->TestList ) );
+        $this->addMessage( ezpI18n::tr( 'cmis', 'Test Started at' ) . ' ' . date( 'Y-m-d H:i:s' ) );
+        $this->addMessage( ezpI18n::tr( 'cmis', 'Service URL:' ) . ' ' . $this->ServiceURL );
+        $this->addMessage( ezpI18n::tr( 'cmis', 'User:' ) . ' ' . $this->User );
+        $this->addMessage( ezpI18n::tr( 'cmis', 'Password:' ) . ' ' . $this->Password );
+        $this->addMessage( ezpI18n::tr( 'cmis', 'Tests:' ) . ' ' . implode( ', ', $this->TestList ) );
         $this->addMessage();
     }
 
@@ -134,7 +134,7 @@ class eZCMISTestHandler
      */
     protected function startTest( $name )
     {
-        $this->addMessage( '*** ' . ezi18n( 'cmis', 'Test started:' ) . ' ' . $name );
+        $this->addMessage( '*** ' . ezpI18n::tr( 'cmis', 'Test started:' ) . ' ' . $name );
     }
 
     /**
@@ -142,7 +142,7 @@ class eZCMISTestHandler
      */
     protected function completeTest( $name )
     {
-        $this->addMessage( '*** ' . ezi18n( 'cmis', 'Test completed:' ) . ' ' . $name );
+        $this->addMessage( '*** ' . ezpI18n::tr( 'cmis', 'Test completed:' ) . ' ' . $name );
     }
 
     /**
@@ -150,7 +150,7 @@ class eZCMISTestHandler
      */
     protected function failTest( $name )
     {
-        $this->addMessage( '*** ' . ezi18n( 'cmis', 'Failed:' ) . ' ' . $name );
+        $this->addMessage( '*** ' . ezpI18n::tr( 'cmis', 'Failed:' ) . ' ' . $name );
     }
 
     /**
@@ -166,7 +166,7 @@ class eZCMISTestHandler
      */
     protected function addFailedCount( $failedCount )
     {
-        $this->addMessage( '*** ' . ezi18n( 'cmis', 'Count of failed tests:' ) . ' ' . $failedCount );
+        $this->addMessage( '*** ' . ezpI18n::tr( 'cmis', 'Count of failed tests:' ) . ' ' . $failedCount );
     }
 
     /**
@@ -187,7 +187,7 @@ class eZCMISTestHandler
 
             if ( !isset( $testMap[$name] ) )
             {
-                throw new eZCMISInvalidArgumentException( ezi18n( 'cmis', "Requested test is not available: '%test%'", null, array( '%test%' => $name ) ) );
+                throw new eZCMISInvalidArgumentException( ezpI18n::tr( 'cmis', "Requested test is not available: '%test%'", null, array( '%test%' => $name ) ) );
             }
 
             $this->startTest( $name );
@@ -196,7 +196,7 @@ class eZCMISTestHandler
 
             if ( !file_exists( $file ) )
             {
-                throw new eZCMISRuntimeException( ezi18n( 'cmis', "Test include file does not exist: '%file%'", null, array( '%file%' => $file ) ) );
+                throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Test include file does not exist: '%file%'", null, array( '%file%' => $file ) ) );
             }
 
             include_once( $file );
@@ -204,7 +204,7 @@ class eZCMISTestHandler
             $class = $testMap[$name]['class'];
             if ( !class_exists( $class ) )
             {
-                throw new eZCMISRuntimeException( ezi18n( 'cmis', "Class '%class%' does not exist", null, array( '%class%' => $class ) ) );
+                throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Class '%class%' does not exist", null, array( '%class%' => $class ) ) );
             }
 
             $test = new $class( $this->ServiceURL, $this->User, $this->Password, $this->Params );

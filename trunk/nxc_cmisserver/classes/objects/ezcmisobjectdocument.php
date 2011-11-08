@@ -181,7 +181,7 @@ class eZCMISObjectDocument extends eZCMISObjectBase
         $attributeId = eZCMISTypeHandler::getContentAttributeId( $this->getObjectTypeId() );
         if ( !isset( $dataMap[$attributeId] ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Object does not have attribute: '%attribute%'", null, array( '%attribute%' => $attributeId ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Object does not have attribute: '%attribute%'", null, array( '%attribute%' => $attributeId ) ) );
         }
 
         return $dataMap[$attributeId];
@@ -265,7 +265,9 @@ class eZCMISObjectDocument extends eZCMISObjectBase
 
         if ( self::isFile( $attribute ) )
         {
-            $info = $attribute->storedFileInformation();
+
+            $info = $attribute->storedFileInformation($attribute->object(), $attribute->objectVersion(), $attribute->language() );
+
             $filePath = isset( $info['filepath'] ) ? $info['filepath'] : false;
             if ( !$filePath or !file_exists( $filePath ) )
             {
@@ -307,7 +309,7 @@ class eZCMISObjectDocument extends eZCMISObjectBase
             $file = fopen( $fileName, 'w' );
             if ( !$file or ( !empty( $content ) and !fwrite( $file, $content ) ) )
             {
-                throw new eZCMISStorageException( ezi18n( 'cmis', 'Could not store temp file' ) );
+                throw new eZCMISStorageException( ezpI18n::tr( 'cmis', 'Could not store temp file' ) );
             }
 
             fclose( $file );
@@ -317,7 +319,7 @@ class eZCMISObjectDocument extends eZCMISObjectBase
 
         if ( !$attribute->fromString( $string ) )
         {
-            throw new eZCMISStorageException( ezi18n( 'cmis', 'Could not store content to attribute' ) );
+            throw new eZCMISStorageException( ezpI18n::tr( 'cmis', 'Could not store content to attribute' ) );
         }
 
         $attribute->sync();
@@ -390,7 +392,8 @@ class eZCMISObjectDocument extends eZCMISObjectBase
      */
     public function isContentStreamNotAllowed()
     {
-        return eZCMISTypeHandler::isContentStreamNotAllowedByTypeId( $this->getObjectTypeId() );
+        $type_handler = new eZCMISTypeHandler();
+        return $type_handler->isContentStreamNotAllowedByTypeId( $this->getObjectTypeId() );
     }
 
     /**

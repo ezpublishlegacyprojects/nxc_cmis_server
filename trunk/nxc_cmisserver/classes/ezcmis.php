@@ -54,11 +54,11 @@ class eZCMIS
     {
         $cmisURL = new eZCMISServiceURL( $viewParameters );
         $moduleName = $cmisURL->getModuleName();
+
         if ( !$moduleName )
         {
             eZCMISExceptions::isNotProvided( 'Module' );
         }
-
         $http = eZHTTPTool::instance();
 
         if ( isset( $_SERVER['PHP_AUTH_USER'] ) )

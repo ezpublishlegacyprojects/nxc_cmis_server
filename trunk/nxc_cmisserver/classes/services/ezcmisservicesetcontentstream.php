@@ -111,7 +111,7 @@ class eZCMISServiceSetContentStream extends eZCMISServiceBase
 
         if ( !$overwriteFlag and $this->CMISObject->hasContent() )
         {
-            throw new eZCMISContentAlreadyExistsException( ezi18n( 'cmis', 'Content already exists' ) );
+            throw new eZCMISContentAlreadyExistsException( ezpI18n::tr( 'cmis', 'Content already exists' ) );
         }
 
         if ( !strlen( $postData ) )

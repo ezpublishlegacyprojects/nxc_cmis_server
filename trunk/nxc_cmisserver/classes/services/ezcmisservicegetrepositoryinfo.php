@@ -56,7 +56,7 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
 
         if ( !$repositoryGroupList )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', 'No repository groups found' ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', 'No repository groups found' ) );
         }
 
         $repositoryList = array();
@@ -91,7 +91,7 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
             $repositoryArray = isset( $repositoryList['default'] ) ? $repositoryList['default'] : false;
             if ( !$repositoryArray )
             {
-                throw new eZCMISRuntimeException( ezi18n( 'cmis', 'No default repository configured' ) );
+                throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', 'No default repository configured' ) );
             }
 
             $repositoryInfo = self::fetchRepositoryInfo( $repositoryArray );
@@ -122,13 +122,13 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
 
         if ( !$rootNode )
         {
-            throw new eZCMISInvalidArgumentException( ezi18n( 'cmis', "No root node provided for repository '%name%'", null, array( '%name%' => $name ) ) );
+            throw new eZCMISInvalidArgumentException( ezpI18n::tr( 'cmis', "No root node provided for repository '%name%'", null, array( '%name%' => $name ) ) );
         }
 
         $node = eZContentObjectTreeNode::fetch( $rootNode );
         if ( !$node )
         {
-            throw new eZCMISObjectNotFoundException( ezi18n( 'cmis', "Could not fetch root node by node_id '%node_id%' for repository '%name%'", null, array( '%node_id%' => $rootNode, '%name%' => $name ) ) );
+            throw new eZCMISObjectNotFoundException( ezpI18n::tr( 'cmis', "Could not fetch root node by node_id '%node_id%' for repository '%name%'", null, array( '%node_id%' => $rootNode, '%name%' => $name ) ) );
         }
 
         $repositoryInfo = array();
@@ -184,7 +184,6 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
     public function processRESTful()
     {
         $repositoryInfo = self::getRepositoryInfo();
-
         $doc = eZCMISAtomTools::createDocument();
 
         $root = eZCMISAtomTools::createRootNode( $doc, 'service', 'app' );
@@ -256,7 +255,7 @@ class eZCMISServiceGetRepositoryInfo extends eZCMISServiceBase
 
         if ( empty( $repositoryInfo ) or !$remoteRootId )
         {
-            throw new eZCMISObjectNotFoundException( ezi18n( 'cmis', 'Repository does not exist' ) );
+            throw new eZCMISObjectNotFoundException( ezpI18n::tr( 'cmis', 'Repository does not exist' ) );
         }
 
         return $repositoryInfo;

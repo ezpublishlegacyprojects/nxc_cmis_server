@@ -49,7 +49,7 @@ class eZCMISTestType extends eZCMISTestBase
 
         if ( !$rootFolderId )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%name%"', null, array( '%name%' => 'rootFolderId' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%name%"', null, array( '%name%' => 'rootFolderId' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -64,7 +64,7 @@ class eZCMISTestType extends eZCMISTestBase
 
         if ( !$typeLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'type' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'type' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -79,7 +79,7 @@ class eZCMISTestType extends eZCMISTestBase
 
         if ( !$title )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%name%"', null, array( '%name%' => 'title' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%name%"', null, array( '%name%' => 'title' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }

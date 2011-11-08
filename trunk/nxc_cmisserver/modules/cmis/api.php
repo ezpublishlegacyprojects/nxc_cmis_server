@@ -31,6 +31,7 @@ $userParameters = $Params['UserParameters'];
 
 try
 {
+
     $result = eZCMIS::process( $Module->ViewParameters );
     if ( $result )
     {

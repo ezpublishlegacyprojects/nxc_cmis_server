@@ -49,7 +49,7 @@ class eZCMISTestCreateDocument extends eZCMISTestBase
 
         if ( !$rootChildrenLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -110,7 +110,7 @@ class eZCMISTestCreateDocument extends eZCMISTestBase
 
         if ( !$objectId )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "ObjectId"' ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "ObjectId"' ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }

@@ -112,7 +112,7 @@ abstract class eZCMISTestBase
     {
         if ( $returned != $expected )
         {
-            $error = ezi18n( 'cmis', 'Status code %returned% returned, but expected %expected% for %url% (%method%)',
+            $error = ezpI18n::tr( 'cmis', 'Status code %returned% returned, but expected %expected% for %url% (%method%)',
                                        null,
                                        array( '%returned%' => $returned,
                                               '%expected%' => $expected,
@@ -142,7 +142,7 @@ abstract class eZCMISTestBase
     {
         if ( !strlen( $response ) )
         {
-            $this->throwError( ezi18n( 'cmis', 'No data returned' ) );
+            $this->throwError( ezpI18n::tr( 'cmis', 'No data returned' ) );
         }
     }
 
@@ -154,7 +154,7 @@ abstract class eZCMISTestBase
         if ( $this->TraceData )
         {
             // @TODO: Check method and is it needed to be added? Check by param
-            $this->addMessage( '* ' . ezi18n( 'cmis', 'Request:' ) . ' ' . $method . ' ' . $url );
+            $this->addMessage( '* ' . ezpI18n::tr( 'cmis', 'Request:' ) . ' ' . $method . ' ' . $url );
         }
     }
 
@@ -165,7 +165,7 @@ abstract class eZCMISTestBase
     {
         if ( $this->TraceData )
         {
-            $this->addMessage( '* ' . ezi18n( 'cmis', 'Response:' ) . ' ' . $code . ' ' . $method . ' ' . $url  );
+            $this->addMessage( '* ' . ezpI18n::tr( 'cmis', 'Response:' ) . ' ' . $code . ' ' . $method . ' ' . $url  );
             $this->addMessage( $response );
         }
     }

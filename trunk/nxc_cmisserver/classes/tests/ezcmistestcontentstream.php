@@ -53,7 +53,7 @@ class eZCMISTestContentStream extends eZCMISTestBase
 
         if ( !$rootChildrenLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -114,7 +114,7 @@ class eZCMISTestContentStream extends eZCMISTestBase
 
         if ( !$mediaLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'ContentStreamURI' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'ContentStreamURI' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }

@@ -49,14 +49,14 @@ class eZCMISServiceHandler
 
         if ( !isset( $serviceMap[$serviceName] ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Requested service is not available: '%service%'", null, array( '%service%' => $serviceName ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Requested service is not available: '%service%'", null, array( '%service%' => $serviceName ) ) );
         }
 
         $serviceFile = $serviceMap[$serviceName]['script'];
 
         if ( !file_exists( $serviceFile ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Service include file does not exist: '%service_file%'", null, array( '%service_file%' => $serviceFile ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Service include file does not exist: '%service_file%'", null, array( '%service_file%' => $serviceFile ) ) );
         }
 
         include_once( $serviceFile );
@@ -64,7 +64,7 @@ class eZCMISServiceHandler
         $serviceClass = $serviceMap[$serviceName]['class'];
         if ( !class_exists( $serviceClass ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Class '%class%' does not exist", null, array( '%class%' => $serviceClass ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Class '%class%' does not exist", null, array( '%class%' => $serviceClass ) ) );
         }
 
         $service = new $serviceClass( $params );
@@ -85,13 +85,13 @@ class eZCMISServiceHandler
 
             default:
             {
-                throw new eZCMISRuntimeException( ezi18n( 'cmis', 'Unknown binding' ) );
+                throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', 'Unknown binding' ) );
             } break;
         }
 
         if ( !method_exists( $service, $method ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Class '%service%' does not have method '%method%'", null, array( '%service%' => $serviceClass, '%method%' => $method ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Class '%service%' does not have method '%method%'", null, array( '%service%' => $serviceClass, '%method%' => $method ) ) );
         }
 
         $result = $service->$method();

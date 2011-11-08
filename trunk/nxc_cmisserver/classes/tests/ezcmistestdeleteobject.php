@@ -53,7 +53,7 @@ class eZCMISTestDeleteObject extends eZCMISTestBase
 
         if ( !$rootChildrenLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -114,7 +114,7 @@ class eZCMISTestDeleteObject extends eZCMISTestBase
 
         if ( !$selfLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'self' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch link with "%attribute%" attribute', null, array( '%attribute%' => 'self' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }

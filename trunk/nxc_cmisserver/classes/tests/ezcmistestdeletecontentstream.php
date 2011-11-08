@@ -53,7 +53,7 @@ class eZCMISTestDeleteContentStream extends eZCMISTestBase
 
         if ( !$childrenLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'rootchildren' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -116,7 +116,7 @@ class eZCMISTestDeleteContentStream extends eZCMISTestBase
 
         if ( !$typeId or !$mediaLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not parse xml' ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not parse xml' ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }

@@ -146,7 +146,7 @@ abstract class eZCMISServiceBase
     {
         if ( isset( $this->Fields[$name] ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Field '%name%' already exists", null, array( '%name%' => $name ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Field '%name%' already exists", null, array( '%name%' => $name ) ) );
         }
 
 
@@ -162,7 +162,7 @@ abstract class eZCMISServiceBase
     {
         if ( !isset( $this->Fields[$name] ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Field '%name%' does not exist", null, array( '%name%' => $name ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Field '%name%' does not exist", null, array( '%name%' => $name ) ) );
         }
 
         return $this->Fields[$name];

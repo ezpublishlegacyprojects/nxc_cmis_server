@@ -75,7 +75,7 @@ class eZCMISServiceDeleteObject extends eZCMISServiceBase
 
         if ( $this->CMISObject->isFolder() and $node->subTreeCount() )
         {
-            throw new eZCMISConstraintViolationException( ezi18n( 'cmis', 'Folder contains children' ) );
+            throw new eZCMISConstraintViolationException( ezpI18n::tr( 'cmis', 'Folder contains children' ) );
         }
     }
 

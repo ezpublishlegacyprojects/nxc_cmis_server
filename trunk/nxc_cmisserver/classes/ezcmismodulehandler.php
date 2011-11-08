@@ -49,14 +49,14 @@ class eZCMISModuleHandler
 
         if ( !isset( $moduleMap[$moduleName] ) )
         {
-            throw new eZCMISObjectNotFoundException( ezi18n( 'cmis', "Requested module is not available: '%module%'", null, array( '%module%' => $moduleName ) ) );
+            throw new eZCMISObjectNotFoundException( ezpI18n::tr( 'cmis', "Requested module is not available: '%module%'", null, array( '%module%' => $moduleName ) ) );
         }
 
         $moduleFile = $moduleMap[$moduleName]['script'];
 
         if ( !file_exists( $moduleFile ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Module include file does not exist: '%file%'", null, array( '%file%' => $moduleFile ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Module include file does not exist: '%file%'", null, array( '%file%' => $moduleFile ) ) );
         }
 
         include_once( $moduleFile );
@@ -64,11 +64,10 @@ class eZCMISModuleHandler
         $moduleClass = $moduleMap[$moduleName]['class'];
         if ( !class_exists( $moduleClass ) )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', "Class '%class%' does not exist", null, array( '%class%' => $moduleClass ) ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', "Class '%class%' does not exist", null, array( '%class%' => $moduleClass ) ) );
         }
 
         $module = new $moduleClass( $params, $binding );
-
         $result = $module->process();
 
         // If http code is defined need to return it

@@ -159,7 +159,7 @@ class eZCMISServiceCreateDocument extends eZCMISServiceBase
         $baseType = eZCMISTypeHandler::getBaseTypeByTypeId( $typeId );
         if ( !$baseType or !eZCMISTypeHandler::isDocument( $baseType ) )
         {
-            throw new eZCMISConstraintViolationException( ezi18n( 'cmis', "The typeId ('%type%') is not an Object-Type whose baseType is 'Document'", null, array( '%type%' => $typeId ) ) );
+            throw new eZCMISConstraintViolationException( ezpI18n::tr( 'cmis', "The typeId ('%type%') is not an Object-Type whose baseType is 'Document'", null, array( '%type%' => $typeId ) ) );
         }
 
         if ( !$title )
@@ -170,7 +170,7 @@ class eZCMISServiceCreateDocument extends eZCMISServiceBase
         $newObject = eZCMISObjectHandler::createNew( eZCMISTypeHandler::getClassIdByTypeId( $typeId ), $folderId );
         if ( !$newObject )
         {
-            throw new eZCMISRuntimeException( ezi18n( 'cmis', 'Could not create new CMIS object' ) );
+            throw new eZCMISRuntimeException( ezpI18n::tr( 'cmis', 'Could not create new CMIS object' ) );
         }
 
         $newObject->setTitle( $title );

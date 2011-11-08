@@ -49,7 +49,7 @@ class eZCMISTestTypes extends eZCMISTestBase
 
         if ( !$descendantsLink )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'typesdescendants' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%collection%" collection', null, array( 'typesdescendants' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
@@ -64,7 +64,7 @@ class eZCMISTestTypes extends eZCMISTestBase
 
         if ( !$title )
         {
-            $this->addMessage( ezi18n( 'cmis', 'Could not fetch "%name%"', null, array( '%name%' => 'title' ) ) );
+            $this->addMessage( ezpI18n::tr( 'cmis', 'Could not fetch "%name%"', null, array( '%name%' => 'title' ) ) );
             $this->addMessage( $result->response );
             $this->throwError();
         }
