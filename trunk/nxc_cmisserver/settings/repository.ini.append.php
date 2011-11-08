@@ -4,7 +4,7 @@
 # Keys of repositories
 RepositoryList[]
 RepositoryList[default]=ROOT
-RepositoryList[default]=MEDIA
+RepositoryList[]=MEDIA
 
 [ROOT]
 Name=Main repository
