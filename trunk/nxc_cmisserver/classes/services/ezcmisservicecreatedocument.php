@@ -117,6 +117,7 @@ class eZCMISServiceCreateDocument extends eZCMISServiceBase
         $folderId = $this->getField( 'folderId' )->getValue();
         $postData = $this->getField( 'post_data' )->getValue();
 
+
         $info = eZCMISAtomTools::processXML( $postData, '/atom:entry' );
 
         // The identifier for the Object-Type of the Document object being created
@@ -126,6 +127,12 @@ class eZCMISServiceCreateDocument extends eZCMISServiceBase
         $summary = (string) eZCMISAtomTools::getValue( $info[0], 'summary' );
         $content = eZCMISAtomTools::getValue( $info[0], 'content' );
 
+        $encoding = eZCMISAtomTools::getAttribute( $postData, 'content', 'type' );
+/*
+        $test = simplexml_load_string( $postData );
+        $test = (array) $test->content->attributes();
+        $test = $test["@attributes"]["type"];
+*/
         $contentType = isset( $content['type'] ) ? (string) $content['type'] : false;
 
         if ( !$typeId )
@@ -138,7 +145,8 @@ class eZCMISServiceCreateDocument extends eZCMISServiceBase
          * specified by the typeId parameter 'contentStreamAllowed' attribute is set to 'not allowed' and a
          * contentStream input parameter is provided.
          */
-        if ( $content and eZCMISTypeHandler::isContentStreamNotAllowedByTypeId( $typeId ) )
+        $type_handler = new eZCMISTypeHandler();
+        if ( $content and $type_handler->isContentStreamNotAllowedByTypeId( $typeId ) )
         {
             eZCMISExceptions::contentStreamIsNotSupported();
         }
@@ -176,7 +184,8 @@ class eZCMISServiceCreateDocument extends eZCMISServiceBase
         $newObject->setTitle( $title );
         $newObject->setSummary( $summary );
         // @TODO: Is it needed here? E.g. to use setContentService service instead of using in this service
-        $newObject->setContentStream( base64_decode( $content ), $contentType );
+        $content = strpos( $encoding, 'text' ) === false ? base64_decode( $content ) : $content;
+        $newObject->setContentStream( $content, $contentType );
 
         $doc = eZCMISAtomTools::createDocument();
 

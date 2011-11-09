@@ -169,6 +169,32 @@ class eZCMISAtomTools
     }
 
     /**
+     * Fetches an attribute from simple xml element
+     *
+     * @return string value
+     */
+    public static function getAttribute( $entry, $name, $attribut )
+    {
+        if( empty( $entry ) or empty( $name ) or empty( $attribut ) )
+        {
+            return null;
+        }
+
+        $xml = simplexml_load_string( $entry );
+        if( $xml instanceof SimpleXMLElement )
+        {
+            $attributes = (array) $xml->$name->attributes();
+            $value = $attributes["@attributes"][$attribut];
+
+            return $value;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
      * Fetches Object Type Id from XML Element \a $element
      *
      */

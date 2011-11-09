@@ -300,7 +300,6 @@ class eZCMISObjectDocument extends eZCMISObjectBase
         }
 
         $string = $content;
-
         if ( self::isFile( $attribute ) )
         {
             $mimeInfo = eZMimeType::findByName( $contentType );
